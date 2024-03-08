@@ -4,7 +4,7 @@ export interface IUser {
     _id?: String;
     name: String;
     email: String;
-    phone_number: String;
+    phone: String;
     date: Date;
     preferenceList?: mongoose.Types.ObjectId[]; // Array to store post IDs
 }

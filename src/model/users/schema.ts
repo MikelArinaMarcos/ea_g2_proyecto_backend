@@ -7,7 +7,7 @@ const schema = new Schema({
     email: { type: String, required: true },
     phone: { type: Number, required: true },
     date: { type: Date, required: true },
-    prefereceList: [{ type: Schema.Types.ObjectId, ref: 'activities' }] // Array of ObjectIds referencing the Post model
+    preferenceList: [{ type: Schema.Types.ObjectId, ref: 'activities' }] // Array of ObjectIds referencing the Activity model
     }
 );
 

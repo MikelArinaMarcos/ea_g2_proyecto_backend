@@ -42,4 +42,40 @@ export default class UserService {
         }
     }
 
+    public async populateUserActivities(query: any): Promise<IUser | null> {
+        try {
+            // Find the user document and populate the 'posts' field
+            const user = await users.findOne(query).populate('activities').exec();
+            if (!user) {
+                return null;
+            }
+            // Convert _id to string
+            const populatedUser: IUser = {
+                ...user.toObject(),
+                _id: user._id.toString()
+            };
+            return populatedUser;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async addActivityToUser(userId: Types.ObjectId, activityId: Types.ObjectId): Promise<void> {
+        try {
+            // Retrieve the user document by ID
+            const user = await users.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // Add the post ID to the user's array of posts
+            user.preferenceList.push(activityId);
+
+            // Save the updated user document
+            await user.save();
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
