@@ -9,7 +9,8 @@ import { ActivityRoutes } from "./routes/activity";
 class App {
 
    public app: express.Application;
-   public mongoUrl: string = 'mongodb://localhost/' + environment.getDBName();
+   //public mongoUrl: string = 'mongodb://localhost/' + environment.getDBName();
+   public mongoUrl: string = 'mongodb://localhost:3002/' ;
 
    
    private user_routes: UserRoutes = new UserRoutes();
