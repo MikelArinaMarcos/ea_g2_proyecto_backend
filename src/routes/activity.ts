@@ -1,5 +1,5 @@
 import { Application, Request, Response } from 'express';
-import { ActivityController } from '../controller/activityController';
+import { ActivityController } from '../controllers/activityController';
 
 export class ActivityRoutes {
 

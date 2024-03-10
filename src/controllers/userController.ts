@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { IUser } from '../model/users/model';
-import UserService from '../model/users/service';
+import { IUser } from '../models/users/model';
+import UserService from '../models/users/service';
 import e = require('express');
 
 export class UserController {

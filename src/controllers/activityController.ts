@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { IActivity } from '../model/activities/model';
-import ActivityService from '../model/activities/service';
-import UserService from '../model/users/service';
+import { IActivity } from '../models/activities/model';
+import ActivityService from '../models/activities/service';
+import UserService from '../models/users/service';
 import e = require('express');
 
 export class ActivityController {
