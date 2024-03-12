@@ -7,15 +7,15 @@ export class ActivityRoutes {
 
     public route(app: Application) {
         
-        app.post('/post', (req: Request, res: Response) => {
+        app.post('/activity', (req: Request, res: Response) => {
             this.activity_controller.createActivity(req, res);
         });
 
-        app.get('/post/:id', (req: Request, res: Response) => {
+        app.get('/activity/:id', (req: Request, res: Response) => {
             this.activity_controller.getActivity(req, res);
         });
 
-        app.delete('/post/:id', (req: Request, res: Response) => {
+        app.delete('/activity/:id', (req: Request, res: Response) => {
             this.activity_controller.deleteActivity(req, res);
         });
 
