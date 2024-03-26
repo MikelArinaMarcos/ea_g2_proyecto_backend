@@ -21,10 +21,9 @@ export default class CommentService {
         }
     }
 
-    public async updateComment(comment_params: IComment): Promise<void> {
+    public async updateComment(comment_params: IComment, comment_id: any): Promise<void> {
         try {
-            const query = { _id: comment_params._id };
-            await comments.findOneAndUpdate(query, comment_params);
+            await comments.findOneAndUpdate(comment_id, comment_params);
         } catch (error) {
             throw error;
         }
@@ -41,7 +40,7 @@ export default class CommentService {
 
     public async populateComment(query: any): Promise<IComment | null> {
         try {
-            const comment = await comments.findOne(query).populate('users').exec();
+            const comment = await comments.findOne(query).populate(['users', 'activities']).exec();
             if (!comment) {
                 return null;
             }

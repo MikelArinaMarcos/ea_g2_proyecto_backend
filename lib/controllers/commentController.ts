@@ -18,8 +18,8 @@ export class CommentController {
                 const comment_params: IComment = {
                     title: req.body.title,
                     content: req.body.content,
-                    user: req.body.user,
-                    activity: req.body.activity,
+                    users: req.body.user,
+                    activities: req.body.activity,
                     review: req.body.review
                 };
                 const comment_data = await this.comment_service.createComment(comment_params);
@@ -59,13 +59,13 @@ export class CommentController {
                 }
     
                 const comment_params: IComment = {
-                    title: req.body.title,
-                    content: req.body.content,
-                    user: req.body.user,
-                    activity: req.body.activity,
-                    review: req.body.review
+                    title: req.body.title || comment_data.title,
+                    content: req.body.content || comment_data.content,
+                    users: req.body.user || comment_data.users,
+                    activities: req.body.activity || comment_data.activities,
+                    review: req.body.review || comment_data.review
                 };
-                await this.comment_service.updateComment(comment_params);
+                await this.comment_service.updateComment(comment_params, comment_filter);
                 const new_comment_data = await this.comment_service.filterComment(comment_filter);
                 return res.status(200).json({ data: new_comment_data, message: 'Successful'});
             } else {

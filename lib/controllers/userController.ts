@@ -74,12 +74,9 @@ export class UserController {
                     phone_number: req.body.phone_number || user_data.phone_number,
                     gender: req.body.gender || user_data.gender,
                 };
-                // Update user
-                console.log("Updating user to:" + user_params.name.first_name);
                 await this.user_service.updateUser(user_params, user_filter);
                 //get new user data
                 const new_user_data = await this.user_service.filterUser(user_filter);
-                console.log("Updated user to:" + new_user_data.name.first_name);
                 // Send success response
                 return res.status(200).json({ data: new_user_data, message: 'Successful update'});
             } else {
