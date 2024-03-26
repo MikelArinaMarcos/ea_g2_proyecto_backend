@@ -41,7 +41,7 @@ export default class CommentService {
 
     public async populateComment(query: any): Promise<IComment | null> {
         try {
-            const comment = await comments.findOne(query).populate('activities').exec();
+            const comment = await comments.findOne(query).populate('users').exec();
             if (!comment) {
                 return null;
             }
@@ -51,6 +51,7 @@ export default class CommentService {
             };
             return populatedComment;
         } catch (error) {
+            console.log(error);
             throw error;
         }
     }

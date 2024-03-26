@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import { IComment } from '../models/comments/model';
 import CommentService from '../models/comments/service';
+import UserService from '../models/users/service';
+import ActivityService from '../models/activities/service';
 import e = require('express');
 
 export class CommentController {
 
     private comment_service: CommentService = new CommentService();
+    private user_service: UserService = new UserService();
+    private activity_service: ActivityService = new ActivityService();
 
     public async createComment(req: Request, res: Response) {
         try{
@@ -19,6 +23,8 @@ export class CommentController {
                     review: req.body.review
                 };
                 const comment_data = await this.comment_service.createComment(comment_params);
+                await this.user_service.addCommentToUser(req.body.user, comment_data._id);
+                await this.activity_service.addCommentToActivity(req.body.activity, comment_data);
                 return res.status(201).json({ message: 'Comment created successfully', comment: comment_data });
             }else{            
                 return res.status(400).json({ error: 'Missing fields' });

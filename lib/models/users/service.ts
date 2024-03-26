@@ -60,32 +60,6 @@ export default class UserService {
         }
     }
 
-    public async getAll(query: any): Promise<IUser[] | null> {
-            // Find the user document and populate the 'posts' field
-            return await users.find(query);
-    }
-
-    public async populateUserActivity(query: any): Promise<IUser | null> {
-        try {
-            try{
-                const user = await users.findOne(query).populate('activities').exec();
-                if (!user) {
-                    return null;
-                }
-                // Convert _id to string
-                const populatedUser: IUser = {
-                    ...user.toObject(),
-                    _id: user._id
-                };
-                return populatedUser;
-            }catch(error){
-                return null;
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
-
     public async addCommentToUser(userId: Types.ObjectId, commentId: Types.ObjectId): Promise<void> {
         try {
             // Retrieve the user document by ID
@@ -101,6 +75,28 @@ export default class UserService {
             await user.save();
         } catch (error) {
             throw error;
+        }
+    }
+
+    public async getAll(query: any): Promise<IUser[] | null> {
+            // Find the user document and populate the 'posts' field
+            return await users.find(query);
+    }
+
+    public async populateUserActivity(query: any): Promise<IUser | null> {
+        try{
+            const user = await users.findOne(query).populate('activities').exec();
+            if (!user) {
+                return null;
+            }
+            // Convert _id to string
+            const populatedUser: IUser = {
+                ...user.toObject(),
+                _id: user._id
+            };
+            return populatedUser;
+        }catch(error){
+            return null;
         }
     }
 
