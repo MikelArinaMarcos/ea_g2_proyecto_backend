@@ -12,17 +12,15 @@ export class ActivityController {
     public async createActivity(req: Request, res: Response) {
         try{
             // this check whether all the filds were send through the request or not
-            if (req.body.name  && req.body.rate && req.body.listUser){
+            if (req.body.name  && req.body.Description && req.body.Owner){
                 const activity_params:IActivity = {
                     name: req.body.name,
                     //avatar: req.body.avatar,
-                    //idDescription: req.body.idDescription,
-                    rate: req.body.rate,
-                    listUser: req.body.listUser
+                    Description: req.body.Description,
+                    Owner: req.body.Owner
                 };
                 const activity_data = await this.activity_service.createActivity(activity_params);
-                 // Now, you may want to add the created post's ID to the user's array of posts
-                await this.user_service.addActivityToUser(req.body._id, activity_data.listUser); //
+                await this.user_service.addActivityToUser(req.body.Owner, activity_data._id); //
                 return res.status(201).json({ message: 'Activity created successfully', activity: activity_data });
             }else{            
                 return res.status(400).json({ error: 'Missing fields' });
