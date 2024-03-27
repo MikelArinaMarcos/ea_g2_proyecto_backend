@@ -14,19 +14,19 @@ export class CommentController {
     public async createComment(req: Request, res: Response) {
         try{
             // this check whether all the filds were send through the request or not
-            if (req.body.title && req.body.content && req.body.user && req.body.activity && req.body.review) {
+            if (req.body.title && req.body.content && req.body.users && req.body.activities && req.body.review) {
                 const comment_params: IComment = {
                     title: req.body.title,
                     content: req.body.content,
-                    users: req.body.user,
-                    activities: req.body.activity,
-                    review: req.body.review
+                    users: req.body.users,
+                    activities: req.body.activities,
+                    review: req.body.review,
                 };
                 const comment_data = await this.comment_service.createComment(comment_params);
-                await this.user_service.addCommentToUser(req.body.user, comment_data._id);
-                await this.activity_service.addCommentToActivity(req.body.activity, comment_data);
+                await this.user_service.addCommentToUser(req.body.users, comment_data._id);
+                await this.activity_service.addCommentToActivity(req.body.activities, comment_data);
                 return res.status(201).json({ message: 'Comment created successfully', comment: comment_data });
-            }else{            
+            }else{ 
                 return res.status(400).json({ error: 'Missing fields' });
             }
         }catch(error){

@@ -36,7 +36,9 @@ export default class UserService {
     public async deleteUser(_id: string): Promise<{ deletedCount: number }> {
         try {
             const query = { _id: _id };
-            return await users.deleteOne(query);
+            const update = { active: false };
+            const result = await users.updateOne(query, update);
+            return { deletedCount: result.modifiedCount };
         } catch (error) {
             throw error;
         }
@@ -70,7 +72,6 @@ export default class UserService {
 
             // Add the post ID to the user's array of posts
             user.comments.push(commentId);
-
             // Save the updated user document
             await user.save();
         } catch (error) {
@@ -79,8 +80,9 @@ export default class UserService {
     }
 
     public async getAll(query: any): Promise<IUser[] | null> {
-            // Find the user document and populate the 'posts' field
-            return await users.find(query);
+            const activeQuery = { ...query, active: true };
+            
+            return await users.find(activeQuery);
     }
 
     public async populateUserActivity(query: any): Promise<IUser | null> {

@@ -8,4 +8,5 @@ export interface IActivity {
     rate?: Number;
     owner: mongoose.Types.ObjectId; //reference to list of users
     comments?: mongoose.Types.ObjectId[];
+    active: Boolean;
 }

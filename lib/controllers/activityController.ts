@@ -17,7 +17,8 @@ export class ActivityController {
                     name: req.body.name,
                     rate: 0,
                     description: req.body.description,
-                    owner: req.body.owner
+                    owner: req.body.owner,
+                    active: true
                 };
                 const activity_data = await this.activity_service.createActivity(activity_params);
                 await this.user_service.addActivityToUser(req.body.owner, activity_data._id);
@@ -35,7 +36,7 @@ export class ActivityController {
             if (req.params.id) {
                 const activity_filter = { _id: req.params.id };
                 // Fetch user
-                const post_data = await this.activity_service.filterActivity(activity_filter);
+                const post_data = await this.activity_service.populateActivityCommentsUser(activity_filter);
                 // Send success response
                 return res.status(200).json({ data: post_data, message: 'Successful'});
             } else {
@@ -66,5 +67,10 @@ export class ActivityController {
             // Catch and handle any errors
             return res.status(500).json({ error: 'Internal server error' });
         }
+    }
+
+    public async getAll(req: Request, res: Response) {
+        const activity_data = await this.activity_service.getAll({});
+        return res.status(200).json(activity_data);    
     }
 }

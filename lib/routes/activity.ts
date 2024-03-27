@@ -11,6 +11,10 @@ export class ActivityRoutes {
             this.activity_controller.createActivity(req, res);
         });
 
+        app.get('/activity', (req: Request, res: Response) => {
+            this.activity_controller.getAll(req, res);
+        });
+
         app.get('/activity/:id', (req: Request, res: Response) => {
             this.activity_controller.getActivity(req, res);
         });

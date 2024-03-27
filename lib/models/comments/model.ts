@@ -6,5 +6,5 @@ export interface IComment {
     content: String;
     users: mongoose.Types.ObjectId;
     activities: mongoose.Types.ObjectId;
-    review: number; // Array to store post IDs
+    review: number; 
 }

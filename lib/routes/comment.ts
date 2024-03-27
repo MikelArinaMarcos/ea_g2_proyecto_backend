@@ -3,24 +3,24 @@ import { CommentController } from '../controllers/commentController';
 
 export class CommentRoutes {
 
-    private user_controller: CommentController = new CommentController();
+    private comment_controller: CommentController = new CommentController();
 
     public route(app: Application) {
         
         app.post('/comment', (req: Request, res: Response) => {
-            this.user_controller.createComment(req, res);
+            this.comment_controller.createComment(req, res);
         });
 
         app.get('/comment/:id', (req: Request, res: Response) => {
-            this.user_controller.getComment(req, res);
+            this.comment_controller.getComment(req, res);
         });
 
         app.put('/comment/:id', (req: Request, res: Response) => {
-            this.user_controller.updateComment(req, res);
+            this.comment_controller.updateComment(req, res);
         });
 
         app.delete('/comment/:id', (req: Request, res: Response) => {
-            this.user_controller.deleteComment(req, res);
+            this.comment_controller.deleteComment(req, res);
         });
 
     }

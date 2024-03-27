@@ -8,7 +8,8 @@ const schema = new Schema({
   description: { type: String, required: false }, // Reference to the User model
   rate:{type: Number, required: false },
   owner:{type:Schema.Types.ObjectId, ref: 'users', required: true},
-  comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }] 
+  comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
+  active: { type: Boolean, required: true }
 });
 
 export default mongoose.model('activities', schema);
