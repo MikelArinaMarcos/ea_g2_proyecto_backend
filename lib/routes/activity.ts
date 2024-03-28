@@ -19,7 +19,7 @@ export class ActivityRoutes {
             this.activity_controller.getActivity(req, res);
         });
 
-        app.delete('/activity/:id', (req: Request, res: Response) => {
+        app.put('/activity/delete/:id', (req: Request, res: Response) => {
             this.activity_controller.deleteActivity(req, res);
         });
 

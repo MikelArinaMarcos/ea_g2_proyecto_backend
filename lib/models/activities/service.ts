@@ -73,6 +73,7 @@ export default class ActivityService {
             return null;
         }
     }
+    
 
     public async populateActivityCommentsUser(query: any): Promise<IActivity | null> {
         try{
@@ -89,10 +90,6 @@ export default class ActivityService {
             if (!activity) {
                 return null;
             }
-
-            activity.comments = activity.comments.filter((comment: any) => {
-                return comment.users && comment.users.active; // Verifica que el usuario esté populated y es activo
-            });;
 
             const populatedActivity: IActivity = {
                 ...activity.toObject(),
