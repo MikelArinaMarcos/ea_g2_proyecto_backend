@@ -49,6 +49,22 @@ export class CommentController {
         }
     }
 
+    public async getComments(req: Request, res: Response) {
+        try{
+            if(req.params.page && req.params.id){
+                const id_filter = { _id: req.params.id }
+                const page_filter = req.params.page;
+                const comment_list = await this.comment_service.get5Comments(page_filter, id_filter);
+                return res.status(200).json({ data: comment_list, message: 'Successful'});
+            }else{
+                return res.status(400).json({ error: 'Missing fields' });
+            }
+        }catch(error){
+            console.log(error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
     public async updateComment(req: Request, res: Response) {
         try {
             if (req.params.id) {

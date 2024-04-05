@@ -21,6 +21,16 @@ export default class CommentService {
         }
     }
 
+    public async get5Comments(page: any, query: any): Promise<IComment[] | null>{
+        try {
+            const activityComments = await comments.find({activities: query});
+            const filteredComments = activityComments.slice(page*5, 5*(page+1));
+            return filteredComments;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     public async updateComment(comment_params: IComment, comment_id: any): Promise<void> {
         try {
             await comments.findOneAndUpdate(comment_id, comment_params);

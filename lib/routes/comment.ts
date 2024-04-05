@@ -15,6 +15,10 @@ export class CommentRoutes {
             this.comment_controller.getComment(req, res);
         });
 
+        app.get('/comment/:id/:page', (req: Request, res: Response) => {
+            this.comment_controller.getComments(req, res);
+        });
+
         app.put('/comment/:id', (req: Request, res: Response) => {
             this.comment_controller.updateComment(req, res);
         });

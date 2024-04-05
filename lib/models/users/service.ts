@@ -58,6 +58,7 @@ export default class UserService {
             // Save the updated user document
             await user.save();
         } catch (error) {
+            console.log(error);
             throw error;
         }
     }
