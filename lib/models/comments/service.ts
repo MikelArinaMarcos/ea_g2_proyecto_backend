@@ -21,11 +21,18 @@ export default class CommentService {
         }
     }
 
-    public async get5Comments(page: any, query: any): Promise<IComment[] | null>{
+    public async get5Comments(page: number, query: any): Promise<IComment[] | null>{
         try {
-            const activityComments = await comments.find({activities: query});
-            const filteredComments = activityComments.slice(page*5, 5*(page+1));
-            return filteredComments;
+            const activityComments = (await comments.find({activities: query})).reverse();
+            return activityComments.slice(page*5, 5*(page+1));
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async commentLength(query: any): Promise<number | null>{
+        try {
+            return (await comments.find({activities: query})).length
         } catch (error) {
             throw error;
         }

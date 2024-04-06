@@ -27,9 +27,11 @@ export class CommentController {
                 await this.activity_service.addCommentToActivity(req.body.activities, comment_data);
                 return res.status(201).json({ message: 'Comment created successfully', comment: comment_data });
             }else{ 
+                console.log("estas aqui pringado")
                 return res.status(400).json({ error: 'Missing fields' });
             }
         }catch(error){
+            console.log(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
@@ -53,12 +55,23 @@ export class CommentController {
         try{
             if(req.params.page && req.params.id){
                 const id_filter = { _id: req.params.id }
-                const page_filter = req.params.page;
+                const page_filter: number = +req.params.page;
                 const comment_list = await this.comment_service.get5Comments(page_filter, id_filter);
-                return res.status(200).json({ data: comment_list, message: 'Successful'});
+                return res.status(200).json(comment_list);
             }else{
                 return res.status(400).json({ error: 'Missing fields' });
             }
+        }catch(error){
+            console.log(error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    public async getLength(req: Request, res: Response){
+        try{
+            const id_filter = { _id: req.params.id };
+            const comment_length = await this.comment_service.commentLength(id_filter);
+            return res.status(200).json(comment_length);
         }catch(error){
             console.log(error);
             return res.status(500).json({ error: 'Internal server error' });
@@ -99,7 +112,7 @@ export class CommentController {
         try {
             if (req.params.id) {
                 const delete_details = await this.comment_service.deleteComment(req.params.id);
-                if (delete_details.deletedCount !== 0) {
+                if (delete_details.deletedCount != 0) {
                     return res.status(200).json({ message: 'Successful'});
                 } else {
                     return res.status(400).json({ error: 'Comment not found' });
