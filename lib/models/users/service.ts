@@ -1,3 +1,4 @@
+import ActivityService from '../activities/service';
 import { IUser } from './model';
 import users from './schema';
 import { Types } from 'mongoose';
@@ -35,10 +36,16 @@ export default class UserService {
 
     public async deleteUser(_id: string): Promise<{ deletedCount: number }> {
         try {
+            
+            const activityService = new ActivityService();
+            await activityService.updateActivitiesForDeletedUser(_id);
+
+            // Luego, eliminar al usuario
             const query = { _id: _id };
             const update = { active: false };
             const result = await users.updateOne(query, update);
-            return { deletedCount: result.modifiedCount };
+
+      return { deletedCount: result.modifiedCount };
         } catch (error) {
             throw error;
         }
@@ -81,24 +88,44 @@ export default class UserService {
     }
 
     public async getAll(query: any): Promise<IUser[] | null> {
+        try {
             const activeQuery = { ...query, active: true };
-            
-            return await users.find(activeQuery);
+            const usersWithPopulatedFields = await users.find(activeQuery)
+                .populate('activities')
+                .populate('comments') // Add population for 'comments' field
+                .exec();
+    
+            const populatedUsers: IUser[] = usersWithPopulatedFields.map(user => ({
+                ...user.toObject(),
+                _id: user._id
+            }));
+    
+            return populatedUsers;
+        } catch (error) {
+            console.error("Error fetching and populating users:", error);
+            return null;
+        }
     }
-
+    
     public async populateUserActivity(query: any): Promise<IUser | null> {
-        try{
-            const user = await users.findOne(query).populate('activities').exec();
+        try {
+            const user = await users.findOne(query)
+                .populate('activities')
+                .populate('comments') // Add population for 'comments' field
+                .exec();
+    
             if (!user) {
                 return null;
             }
-            // Convert _id to string
+    
             const populatedUser: IUser = {
                 ...user.toObject(),
                 _id: user._id
             };
+    
             return populatedUser;
-        }catch(error){
+        } catch (error) {
+            console.error("Error fetching and populating user activity:", error);
             return null;
         }
     }

@@ -1,6 +1,7 @@
 import { IComment } from './model';
 import comments from './schema';
-import { Types } from 'mongoose';
+import ActivityService from '../activities/service';
+import mongoose, { Types } from 'mongoose';
 
 export default class CommentService {
     
@@ -41,6 +42,10 @@ export default class CommentService {
     public async updateComment(comment_params: IComment, comment_id: any): Promise<void> {
         try {
             await comments.findOneAndUpdate(comment_id, comment_params);
+
+            const activityService = new ActivityService();
+            await activityService.updateActivityRate(comment_params.activities); 
+               
         } catch (error) {
             throw error;
         }
@@ -48,12 +53,28 @@ export default class CommentService {
 
     public async deleteComment(_id: string): Promise<{ deletedCount: number }> {
         try {
-            const query = { _id: _id };
-            return await comments.deleteOne(query);
+            const comment = await comments.findOne({ _id });
+            if (!comment) {
+                throw new Error('Comment not found');
+            }
+    
+            // Eliminar el comentario de la colección de comentarios
+            const deletionResult = await comments.deleteOne({ _id });
+            if (deletionResult.deletedCount !== 1) {
+                throw new Error('Comment deletion failed');
+            }
+    
+            // Actualizar la actividad asociada
+            const activityService = new ActivityService();
+            await activityService.updateActivityAfterCommentDeletion(comment.activities, _id);
+    
+            return deletionResult;
+
         } catch (error) {
             throw error;
         }
     }
+
 
     public async populateComment(query: any): Promise<IComment | null> {
         try {

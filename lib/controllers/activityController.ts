@@ -69,6 +69,40 @@ export class ActivityController {
         }
     }
 
+    public async updateActivity(req: Request, res: Response) {
+        try {
+            if (req.params.id) {
+                const activity_filter = { _id: req.params.id };
+                // Fetch user
+                const activity_data = await this.activity_service.filterActivity(activity_filter);
+                if (!activity_data) {
+                    // Send failure response if user not found
+                    return res.status(400).json({ error: 'Activity not found'});
+                }
+    
+                const activity_params: IActivity = {
+                    name: req.body.name,
+                    rate: req.body.rate,
+                    description: req.body.description,
+                    owner: req.body.owner,
+                    active: true
+                };
+                await this.activity_service.updateActivity(activity_params, activity_filter);
+                //get new activity data
+                const new_activity_data = await this.activity_service.filterActivity(activity_filter);
+                // Send success response
+                return res.status(200).json({ data: new_activity_data, message: 'Successful update'});
+            } else {
+                // Send error response if ID parameter is missing
+                return res.status(400).json({ error: 'Missing ID parameter' });
+            }
+        } catch (error) {
+            // Catch and handle any errors
+            console.error("Error updating:", error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
     public async getAll(req: Request, res: Response) {
         const activity_data = await this.activity_service.getAll({});
         return res.status(200).json(activity_data);    

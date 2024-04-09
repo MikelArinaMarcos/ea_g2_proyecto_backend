@@ -19,6 +19,10 @@ export class ActivityRoutes {
             this.activity_controller.getActivity(req, res);
         });
 
+        app.put('/activity/:id', (req: Request, res: Response) => {
+            this.activity_controller.updateActivity(req, res);
+        });
+
         app.put('/activity/delete/:id', (req: Request, res: Response) => {
             this.activity_controller.deleteActivity(req, res);
         });
