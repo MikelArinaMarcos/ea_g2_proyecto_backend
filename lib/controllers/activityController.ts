@@ -46,6 +46,26 @@ export class ActivityController {
         }
     }
 
+    public async getAll(req: Request, res: Response) {
+        try {
+            console.log("funciona get all");
+            const activity_filter = {};
+            const activity_data = await this.activity_service.getAll(activity_filter);
+            const page = Number(req.params.page); // Convertir a número
+            const limit = Number(req.params.limit); // Convertir a número
+            const startIndex = (page - 1) * limit;
+            const endIndex = page * limit;
+    
+            
+            const resultActivity = activity_data.slice(startIndex, endIndex);
+            return res.status(200).json(resultActivity);
+        } catch (error) {
+            
+            console.error('Error en la solicitud:', error);
+            return res.status(500).json({ message: 'Error interno del servidor' });
+        }
+    }
+
     public async deleteActivity(req: Request, res: Response) {
         try {
             if (req.params.id) {
