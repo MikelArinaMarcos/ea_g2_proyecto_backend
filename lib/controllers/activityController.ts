@@ -51,14 +51,17 @@ export class ActivityController {
             console.log("funciona get all");
             const activity_filter = {};
             const activity_data = await this.activity_service.getAll(activity_filter);
+            let total=activity_data.length;
             const page = Number(req.params.page); // Convertir a número
             const limit = Number(req.params.limit); // Convertir a número
             const startIndex = (page - 1) * limit;
             const endIndex = page * limit;
+            let totalPages= Math.ceil(total/limit);
     
             
             const resultActivity = activity_data.slice(startIndex, endIndex);
-            return res.status(200).json(resultActivity);
+            console.log(resultActivity, totalPages,total);
+            return res.status(200).json({activities:resultActivity,totalPages:totalPages,totalActivity:total});
         } catch (error) {
             
             console.error('Error en la solicitud:', error);

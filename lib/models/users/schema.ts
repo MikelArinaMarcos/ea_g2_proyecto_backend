@@ -12,7 +12,8 @@ const schema = new Schema({
     phone_number: String,
     gender: String,
     activities: [{ type: Schema.Types.ObjectId, ref: 'activities' }], 
-    comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }] 
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }]
+    
     }
 );
 

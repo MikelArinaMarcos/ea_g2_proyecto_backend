@@ -51,6 +51,7 @@ export class UserController {
             console.log("numero de usurarios:",total);
             console.log("Numero de paginas:",totalPages);
             return res.status(200).json({users:resultUser,totalPages:totalPages,totalUser:total});
+            //return res.status(200).json(resultUser);
         } catch (error) {
             
             console.error('Error en la solicitud:', error);
