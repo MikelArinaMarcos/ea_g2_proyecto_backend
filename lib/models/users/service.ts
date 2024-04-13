@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 
 export default class UserService {
+
     
     public async createUser(user_params: IUser): Promise<IUser> {
         try {
@@ -78,8 +79,26 @@ export default class UserService {
         }
     }
 
+   /*  public async getUser(query: any): Promise<IUser[] | null> {
+
+        
+        // Find the user document and populate the 'posts' field
+        return await users.aggregate([
+            {
+                $match:{}
+            },
+            {$facet:
+            metaData:[],
+            },
+            {$skip:(page-1)*limit},
+
+        ]);
+} */
+
     public async getAll(query: any): Promise<IUser[] | null> {
+        console.log(query,"estoy dentro del getAll");
             // Find the user document and populate the 'posts' field
+            console.log(users);
             return await users.find(query);
     }
 
