@@ -33,9 +33,23 @@ export class UserController {
     }
 
     public async getAll(req: Request, res: Response) {
-        const user_filter = { };
-        const user_data = await this.user_service.getAll(user_filter);
-        return res.status(200).json(user_data);    
+        try {
+            console.log("funciona get all");
+            const user_filter = {};
+            const user_data = await this.user_service.getAll(user_filter);
+            const page = Number(req.params.page); // Convertir a número
+            const limit = Number(req.params.limit); // Convertir a número
+            const startIndex = (page - 1) * limit;
+            const endIndex = page * limit;
+    
+            
+            const resultUser = user_data.slice(startIndex, endIndex);
+            return res.status(200).json(resultUser);
+        } catch (error) {
+            
+            console.error('Error en la solicitud:', error);
+            return res.status(500).json({ message: 'Error interno del servidor' });
+        }
     }
 
     public async getUser(req: Request, res: Response) {
