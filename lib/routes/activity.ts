@@ -11,7 +11,7 @@ export class ActivityRoutes {
             this.activity_controller.createActivity(req, res);
         });
 
-        app.get('/activity/page/limit', (req: Request, res: Response) => {
+        app.get('/activity/:page/:limit', (req: Request, res: Response) => {
             this.activity_controller.getAll(req, res);
         });
 

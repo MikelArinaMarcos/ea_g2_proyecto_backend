@@ -12,9 +12,5 @@ export interface IUser {
     gender: String;
     activities?: mongoose.Types.ObjectId[]; // Array to store post IDs
     comments?: mongoose.Types.ObjectId[]; // Array to store post IDs
-<<<<<<< HEAD
     active: Boolean;
-=======
-   
->>>>>>> paginador
 }

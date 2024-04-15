@@ -105,7 +105,6 @@ export default class UserService {
 } */
 
     public async getAll(query: any): Promise<IUser[] | null> {
-<<<<<<< HEAD
         try {
             const activeQuery = { ...query, active: true };
             const usersWithPopulatedFields = await users.find(activeQuery)
@@ -123,12 +122,6 @@ export default class UserService {
             console.error("Error fetching and populating users:", error);
             return null;
         }
-=======
-        console.log(query,"estoy dentro del getAll");
-            // Find the user document and populate the 'posts' field
-            console.log(users);
-            return await users.find(query);
->>>>>>> paginador
     }
     
     public async populateUserActivity(query: any): Promise<IUser | null> {

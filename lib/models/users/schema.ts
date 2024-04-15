@@ -12,13 +12,8 @@ const schema = new Schema({
     phone_number: String,
     gender: String,
     activities: [{ type: Schema.Types.ObjectId, ref: 'activities' }], 
-<<<<<<< HEAD
     comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
     active: Boolean
-=======
-    comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }]
-    
->>>>>>> paginador
     }
 );
 

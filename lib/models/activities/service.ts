@@ -25,11 +25,6 @@ export default class ActivityService {
         }
     }
 
-  /*   public async getAll(query: any): Promise<IActivity[] | null> {
-        // Find the user document and populate the 'posts' field
-        return await activities.find(query);
-} */
-
     public async addCommentToActivity(activityId: Types.ObjectId, comment: IComment): Promise<void> {
         try {
             // Retrieve the user document by ID

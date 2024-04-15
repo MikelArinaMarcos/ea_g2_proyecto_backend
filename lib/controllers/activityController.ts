@@ -125,9 +125,4 @@ export class ActivityController {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
-
-   /*  public async getAll(req: Request, res: Response) {
-        const activity_data = await this.activity_service.getAll({});
-        return res.status(200).json(activity_data);    
-    } */
 }
