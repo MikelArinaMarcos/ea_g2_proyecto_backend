@@ -11,8 +11,9 @@ export class UserRoutes {
             this.user_controller.createUser(req, res);
         });
 
-        app.get('/user/:page/:limit', (req: Request, res: Response) => {
+        app.get('/user/:page/:limit', (req: Request, res: Response,) => {
             this.user_controller.getAll(req, res);
+           
         });
 
         app.get('/user/:id', (req: Request, res: Response) => {
