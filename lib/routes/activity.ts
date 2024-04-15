@@ -11,11 +11,7 @@ export class ActivityRoutes {
             this.activity_controller.createActivity(req, res);
         });
 
-<<<<<<< HEAD
-        app.get('/activity', (req: Request, res: Response) => {
-=======
         app.get('/activity/page/limit', (req: Request, res: Response) => {
->>>>>>> paginador
             this.activity_controller.getAll(req, res);
         });
 

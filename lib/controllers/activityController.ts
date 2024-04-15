@@ -123,8 +123,8 @@ export class ActivityController {
         }
     }
 
-    public async getAll(req: Request, res: Response) {
+   /*  public async getAll(req: Request, res: Response) {
         const activity_data = await this.activity_service.getAll({});
         return res.status(200).json(activity_data);    
-    }
+    } */
 }
