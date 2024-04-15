@@ -37,14 +37,22 @@ export class UserController {
             console.log("funciona get all");
             const user_filter = {};
             const user_data = await this.user_service.getAll(user_filter);
+            let total=user_data.length;
+            
             const page = Number(req.params.page); // Convertir a número
             const limit = Number(req.params.limit); // Convertir a número
             const startIndex = (page - 1) * limit;
             const endIndex = page * limit;
+            let totalPages= Math.ceil(total/limit);
     
-            
+            console.log(user_data,"esto es el user_data");
             const resultUser = user_data.slice(startIndex, endIndex);
-            return res.status(200).json(resultUser);
+            console.log(startIndex,endIndex); 
+            console.log(resultUser);
+            console.log("numero de usurarios:",total);
+            console.log("Numero de paginas:",totalPages);
+            return res.status(200).json({users:resultUser,totalPages:totalPages,totalUser:total});
+            //return res.status(200).json(resultUser);
         } catch (error) {
             
             console.error('Error en la solicitud:', error);

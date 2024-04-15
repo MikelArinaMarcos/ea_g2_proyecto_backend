@@ -12,9 +12,13 @@ export class ActivityRoutes {
         });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         app.get('/activity', (req: Request, res: Response) => {
 =======
         app.get('/activity/page/limit', (req: Request, res: Response) => {
+>>>>>>> paginador
+=======
+        app.get('/activity/:page/:limit', (req: Request, res: Response) => {
 >>>>>>> paginador
             this.activity_controller.getAll(req, res);
         });
