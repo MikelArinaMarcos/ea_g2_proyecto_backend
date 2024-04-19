@@ -27,7 +27,6 @@ export class CommentController {
                 await this.activity_service.addCommentToActivity(req.body.activities, comment_data);
                 return res.status(201).json({ message: 'Comment created successfully', comment: comment_data });
             }else{ 
-                console.log("estas aqui pringado")
                 return res.status(400).json({ error: 'Missing fields' });
             }
         }catch(error){

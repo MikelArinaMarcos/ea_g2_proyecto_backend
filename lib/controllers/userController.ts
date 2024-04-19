@@ -34,7 +34,6 @@ export class UserController {
 
     public async getAll(req: Request, res: Response) {
         try {
-            console.log("funciona get all");
             const user_filter = {};
             const user_data = await this.user_service.getAll(user_filter);
             let total=user_data.length;
@@ -45,12 +44,12 @@ export class UserController {
             const endIndex = page * limit;
             let totalPages= Math.ceil(total/limit);
     
-            console.log(user_data,"esto es el user_data");
+            console.log(user_data,"Esto es el user_data");
             const resultUser = user_data.slice(startIndex, endIndex);
             console.log(startIndex,endIndex); 
             console.log(resultUser);
-            console.log("numero de usurarios:",total);
-            console.log("Numero de paginas:",totalPages);
+            console.log("Número de usuarios:",total);
+            console.log("Número de páginas:",totalPages);
             return res.status(200).json({users:resultUser,totalPages:totalPages,totalUser:total});
             //return res.status(200).json(resultUser);
         } catch (error) {
