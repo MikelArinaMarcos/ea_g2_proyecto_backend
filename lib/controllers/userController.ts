@@ -10,16 +10,13 @@ export class UserController {
 
     public async createUser(req: Request, res: Response) {
         try{
-            if (req.body.name && req.body.name.first_name && req.body.name.middle_name && req.body.name.last_name && req.body.email && req.body.phone_number && req.body.gender) {
+            if (req.body.name && req.body.email && req.body.phone_number && req.body.birthday && req.body.gender) {
                 const user_params: IUser = {
-                    name: {
-                        first_name: req.body.name.first_name,
-                        middle_name: req.body.name.middle_name,
-                        last_name: req.body.name.last_name
-                    },
+                    name: req.body.name,
                     email: req.body.email,
                     phone_number: req.body.phone_number,
                     gender: req.body.gender,
+                    birthday: req.body.birthday,
                     active: true
                 };
                 const user_data = await this.user_service.createUser(user_params);
@@ -44,14 +41,10 @@ export class UserController {
             const endIndex = page * limit;
             let totalPages= Math.ceil(total/limit);
     
-            console.log(user_data,"Esto es el user_data");
             const resultUser = user_data.slice(startIndex, endIndex);
-            console.log(startIndex,endIndex); 
-            console.log(resultUser);
-            console.log("Número de usuarios:",total);
-            console.log("Número de páginas:",totalPages);
+         
             return res.status(200).json({users:resultUser,totalPages:totalPages,totalUser:total});
-            //return res.status(200).json(resultUser);
+
         } catch (error) {
             
             console.error('Error en la solicitud:', error);
@@ -87,14 +80,11 @@ export class UserController {
                 }
     
                 const user_params: IUser = {
-                    name: req.body.name ? {
-                        first_name: req.body.name.first_name || user_data.name?.first_name,
-                        middle_name: req.body.name.middle_name || user_data.name?.middle_name,
-                        last_name: req.body.name.last_name || user_data.name?.last_name
-                    } : user_data.name || { first_name: '', middle_name: '', last_name: '' }, // Provide empty name object if not provided
+                    name: req.body.name || user_data.name, // Provide empty name object if not provided
                     email: req.body.email || user_data.email,
                     phone_number: req.body.phone_number || user_data.phone_number,
                     gender: req.body.gender || user_data.gender,
+                    birthday: req.body.birthday || user_data.birthday,
                     active: true
                 };
                 await this.user_service.updateUser(user_params, user_filter);

@@ -12,12 +12,13 @@ export class ActivityController {
     public async createActivity(req: Request, res: Response) {
         try{
             // this check whether all the filds were send through the request or not
-            if (req.body.name  && req.body.description && req.body.owner){
+            if (req.body.name  && req.body.description && req.body.owner && req.body.date){
                 const activity_params:IActivity = {
                     name: req.body.name,
                     rate: 0,
                     description: req.body.description,
                     owner: req.body.owner,
+                    date: req.body.date,
                     active: true
                 };
                 const activity_data = await this.activity_service.createActivity(activity_params);
@@ -108,6 +109,7 @@ export class ActivityController {
                     rate: req.body.rate,
                     description: req.body.description,
                     owner: req.body.owner,
+                    date: req.body.date,
                     active: true
                 };
                 await this.activity_service.updateActivity(activity_params, activity_filter);
@@ -125,4 +127,18 @@ export class ActivityController {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
+
+    public async participateActivity(req: Request, res: Response) {
+        try{
+
+            await this.user_service.addActivityListToUser(req.params.userId, req.params.activityId);
+            await this.activity_service.addListUsersToActivity(req.params.activityId, req.params.userId);
+                
+            return res.status(201).json({ message: 'Successful update' });
+    
+        }catch(error){
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
 }

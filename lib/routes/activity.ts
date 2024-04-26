@@ -27,5 +27,9 @@ export class ActivityRoutes {
             this.activity_controller.deleteActivity(req, res);
         });
 
+        app.put('/activity/:userId/:activityId', (req: Request, res: Response) => {
+            this.activity_controller.participateActivity(req, res);
+        });
+
     }
 }

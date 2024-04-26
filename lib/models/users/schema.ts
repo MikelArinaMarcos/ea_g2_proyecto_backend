@@ -3,15 +3,13 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    name: {
-        first_name: String,
-        middle_name: String,
-        last_name: String
-    },
+    name: String,
     email: String,
     phone_number: String,
     gender: String,
+    birthday: Date,
     activities: [{ type: Schema.Types.ObjectId, ref: 'activities' }], 
+    listActivities: [{ type: Schema.Types.ObjectId, ref: 'activities' }], //Lista de actividades en las que participa
     comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
     active: Boolean
     }

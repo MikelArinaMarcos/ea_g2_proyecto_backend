@@ -44,6 +44,26 @@ export default class ActivityService {
         }
     }
 
+    public async addListUsersToActivity(activityId: Types.ObjectId, userId: Types.ObjectId): Promise<void> {
+        try {
+            // Retrieve the user document by ID
+            const activity = await activities.findById(activityId);
+            if (!activity) {
+                throw new Error('Activity not found');
+            }
+          
+            // Add the post ID to the user's array of posts
+            activity.listUsers.push(userId);
+            
+
+            // Save the updated user document
+            await activity.save();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
     public async updateActivityAfterCommentDeletion(activityId: mongoose.Types.ObjectId, commentId: string): Promise<void> {
         try {
             // Encontrar la actividad asociada

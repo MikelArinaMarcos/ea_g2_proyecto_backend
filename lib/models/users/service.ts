@@ -52,6 +52,7 @@ export default class UserService {
         }
     }
 
+    //Añadir actividad de usuario
     public async addActivityToUser(userId: Types.ObjectId, activityId: Types.ObjectId): Promise<void> {
         try {
             // Retrieve the user document by ID
@@ -62,6 +63,26 @@ export default class UserService {
 
             // Add the post ID to the user's array of posts
             user.activities.push(activityId);
+
+            // Save the updated user document
+            await user.save();
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    //Añadir actividad en el historial
+    public async addActivityListToUser(userId: Types.ObjectId, activityId: Types.ObjectId): Promise<void> {
+        try {
+            // Retrieve the user document by ID
+            const user = await users.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // Add the post ID to the user's array of posts
+            user.listActivities.push(activityId);
 
             // Save the updated user document
             await user.save();
