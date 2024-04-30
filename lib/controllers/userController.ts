@@ -10,13 +10,13 @@ export class UserController {
 
     public async createUser(req: Request, res: Response) {
         try{
-            if (req.body.name && req.body.email && req.body.phone_number && req.body.birthday && req.body.gender && req.body.password) {
+            if (req.body.name && req.body.email && req.body.phone_number  && req.body.gender && req.body.password) {
                 const user_params: IUser = {
                     name: req.body.name,
                     email: req.body.email,
                     phone_number: req.body.phone_number,
                     gender: req.body.gender,
-                    birthday: req.body.birthday,
+                    //birthday: req.body.birthday,
                     active: true,
                     password: req.body.password
                 };
@@ -26,6 +26,7 @@ export class UserController {
                 return res.status(400).json({ error: 'Missing fields' });
             }
         }catch(error){
+            console.log("error", error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

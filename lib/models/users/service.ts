@@ -10,6 +10,8 @@ export default class UserService {
     public async createUser(user_params: IUser): Promise<IUser> {
         try {
             const session = new users(user_params);
+            session.password=session.encryptPassword(session.password)
+    
             const result = await session.save();
             // Convert _id to string
             const newUser: IUser = { ...result.toObject(), _id: result._id };
