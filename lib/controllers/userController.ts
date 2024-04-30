@@ -10,14 +10,15 @@ export class UserController {
 
     public async createUser(req: Request, res: Response) {
         try{
-            if (req.body.name && req.body.email && req.body.phone_number && req.body.birthday && req.body.gender) {
+            if (req.body.name && req.body.email && req.body.phone_number && req.body.birthday && req.body.gender && req.body.password) {
                 const user_params: IUser = {
                     name: req.body.name,
                     email: req.body.email,
                     phone_number: req.body.phone_number,
                     gender: req.body.gender,
                     birthday: req.body.birthday,
-                    active: true
+                    active: true,
+                    password: req.body.password
                 };
                 const user_data = await this.user_service.createUser(user_params);
                 return res.status(201).json({ message: 'User created successfully', user: user_data });
@@ -85,7 +86,8 @@ export class UserController {
                     phone_number: req.body.phone_number || user_data.phone_number,
                     gender: req.body.gender || user_data.gender,
                     birthday: req.body.birthday || user_data.birthday,
-                    active: true
+                    active: true,
+                    password: req.body.password || user_data.password
                 };
                 await this.user_service.updateUser(user_params, user_filter);
                 //get new user data
