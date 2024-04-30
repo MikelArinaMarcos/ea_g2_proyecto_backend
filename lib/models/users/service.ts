@@ -3,14 +3,24 @@ import { IUser } from './model';
 import users from './schema';
 import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 export default class UserService {
 
+   public async encryptPassword(password:string) {
+        const salt = await bcrypt.genSalt(10);
+        return bcrypt.hash(password, salt);
+      };
     
+     public async validatePassword(password:string) {
+        const user = await users.findOne({ password: password });
+        return bcrypt.compare(password, user.password);
+      };
+
     public async createUser(user_params: IUser): Promise<IUser> {
         try {
             const session = new users(user_params);
-            session.password=session.encryptPassword(session.password)
+            session.password= await this.encryptPassword(session.password)
     
             const result = await session.save();
             // Convert _id to string

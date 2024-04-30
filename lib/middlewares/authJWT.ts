@@ -28,8 +28,8 @@ export async function verifyToken (req: Request, res: Response, next: NextFuncti
     const decoded = jwt.verify(token, _SECRET) as IJwtPayload;
     console.log("verifyToken");
     console.log(decoded);
-    req.userId = decoded.id;
-    const user = await users.find({us: req.userId}, { password: 0 });
+    req.params._id = decoded.id;
+    const user = await users.find({us: req.params._id}, { password: 0 });
     console.log(user);
     if (!user) return res.status(404).json({ message: "No user found" });
 
@@ -43,14 +43,14 @@ export async function verifyToken (req: Request, res: Response, next: NextFuncti
 
 export async function isOwner (req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await users.find({username: req.userId});
+    const user = await users.find({username: req.body._id});
 
     const activityId = req.params.id;
     const activity = await activities.findById(activityId);
 
     if (!activity) return res.status(403).json({ message: "No user found" });
 
-    if (activity.owner != req.userId) return res.status(403).json({ message: "Not Owner" });
+    if (activity.owner != req.body._id) return res.status(403).json({ message: "Not Owner" });
 
     next();
 
@@ -63,7 +63,7 @@ export async function isOwner (req: Request, res: Response, next: NextFunction) 
 export async function commentOwner (req: Request, res: Response, next: NextFunction) {
   try {
     
-    const user = await users.findOne({username: req.userId});
+    const user = await users.findOne({userId: req.body._id});
 
     console.log("estas aqui: " + user._id);
 

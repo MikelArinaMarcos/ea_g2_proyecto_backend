@@ -130,8 +130,8 @@ export class ActivityController {
     public async participateActivity(req: Request, res: Response) {
         try{
 
-            const userId = new ObjectId(req.params.userId);
-            const activityId = new ObjectId(req.params.activityId);
+            const userId = req.body.listUsers;
+            const activityId = req.body._id;
 
             await this.user_service.addActivityListToUser(userId, activityId);
             await this.activity_service.addListUsersToActivity(activityId, userId);
