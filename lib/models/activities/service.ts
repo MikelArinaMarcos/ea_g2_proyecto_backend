@@ -153,7 +153,8 @@ export default class ActivityService {
             const activeQuery = { ...query, active: true };
             const activity = await activities.find(activeQuery)
                 .populate('comments')
-                .populate('owner') 
+                .populate('owner')
+                .populate('listUsers')
                 .exec();
     
             return activity;
@@ -164,7 +165,7 @@ export default class ActivityService {
     }
     
 
-    public async populateActivityCommentsUser(query: any): Promise<IActivity | null> {
+    public async populateActivityCommentsUsers(query: any): Promise<IActivity | null> {
         try{
             const activity = await activities.findOne(query)
             .populate({
@@ -174,6 +175,7 @@ export default class ActivityService {
             .populate({
                 path: 'owner'
             })
+            .populate('listUsers')
             .exec();
 
             if (!activity) {

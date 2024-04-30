@@ -3,6 +3,7 @@ import { IActivity } from '../models/activities/model';
 import ActivityService from '../models/activities/service';
 import UserService from '../models/users/service';
 import e = require('express');
+import { ObjectId } from 'mongodb';
 
 export class ActivityController {
 
@@ -37,7 +38,7 @@ export class ActivityController {
             if (req.params.id) {
                 const activity_filter = { _id: req.params.id };
                 // Fetch user
-                const post_data = await this.activity_service.populateActivityCommentsUser(activity_filter);
+                const post_data = await this.activity_service.populateActivityCommentsUsers(activity_filter);
                 // Send success response
                 return res.status(200).json({ data: post_data, message: 'Successful'});
             } else {
@@ -50,7 +51,6 @@ export class ActivityController {
 
     public async getAll(req: Request, res: Response) {
         try {
-            console.log("funciona get all");
             const activity_filter = {};
             const activity_data = await this.activity_service.getAll(activity_filter);
             let total=activity_data.length;
@@ -62,7 +62,6 @@ export class ActivityController {
     
             
             const resultActivity = activity_data.slice(startIndex, endIndex);
-            console.log(resultActivity, totalPages,total);
             return res.status(200).json({activities:resultActivity,totalPages:totalPages,totalActivity:total});
         } catch (error) {
             
@@ -131,8 +130,11 @@ export class ActivityController {
     public async participateActivity(req: Request, res: Response) {
         try{
 
-            await this.user_service.addActivityListToUser(req.params.userId, req.params.activityId);
-            await this.activity_service.addListUsersToActivity(req.params.activityId, req.params.userId);
+            const userId = new ObjectId(req.params.userId);
+            const activityId = new ObjectId(req.params.activityId);
+
+            await this.user_service.addActivityListToUser(userId, activityId);
+            await this.activity_service.addListUsersToActivity(activityId, userId);
                 
             return res.status(201).json({ message: 'Successful update' });
     

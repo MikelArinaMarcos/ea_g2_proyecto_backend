@@ -109,27 +109,13 @@ export default class UserService {
         }
     }
 
-   /*  public async getUser(query: any): Promise<IUser[] | null> {
-
-        
-        // Find the user document and populate the 'posts' field
-        return await users.aggregate([
-            {
-                $match:{}
-            },
-            {$facet:
-            metaData:[],
-            },
-            {$skip:(page-1)*limit},
-
-        ]);
-} */
 
     public async getAll(query: any): Promise<IUser[] | null> {
         try {
             const activeQuery = { ...query, active: true };
             const usersWithPopulatedFields = await users.find(activeQuery)
                 .populate('activities')
+                .populate('listActivities')
                 .populate('comments') // Add population for 'comments' field
                 .exec();
     
@@ -149,6 +135,7 @@ export default class UserService {
         try {
             const user = await users.findOne(query)
                 .populate('activities')
+                .populate('listActivities')
                 .populate('comments') // Add population for 'comments' field
                 .exec();
     
