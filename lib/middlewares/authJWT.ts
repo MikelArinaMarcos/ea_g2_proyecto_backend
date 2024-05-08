@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose';
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import activities from "../models/activities/schema";
 import {IUser} from "../models/users/model";
 import users from "../models/users/schema";

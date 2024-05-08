@@ -1,0 +1,30 @@
+version: '1'
+services:
+  sfbackend:
+    container_name: backend
+    image: mercadonaenjoyer/sf_backend
+    restart: always
+    depends_on:
+      - sfmongo
+    ports:
+      - 3000:3000
+
+  sfmongo:
+    container_name: mongodb
+    image: mongo:4.4
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+  
+  app:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
