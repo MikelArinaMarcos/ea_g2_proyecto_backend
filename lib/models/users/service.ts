@@ -7,14 +7,18 @@ import * as bcrypt from 'bcrypt';
 
 export default class UserService {
 
+
+
    public async encryptPassword(password:string) {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(password, salt);
       };
     
-     public async validatePassword(password:string) {
-        const user = await users.findOne({ password: password });
-        return bcrypt.compare(password, user.password);
+     public  validatePassword(password:string, person:string) {
+        console.log(password)
+        //const user = await users.findOne({password: password });
+        //console.log('user password es:',user);
+        return bcrypt.compare(password, person);
       };
 
     public async createUser(user_params: IUser): Promise<IUser> {

@@ -6,6 +6,7 @@ import environment from "../environment";
 import { UserRoutes } from "../routes/user";
 import { ActivityRoutes } from "../routes/activity";
 import { CommentRoutes } from "../routes/comment";
+import {AuthRoutes} from "../routes/auth";
 
 class App {
 
@@ -17,6 +18,7 @@ class App {
    private user_routes: UserRoutes = new UserRoutes();
    private activity_routes: ActivityRoutes = new ActivityRoutes();
    private comment_routes: CommentRoutes = new CommentRoutes();
+   private auth_routes: AuthRoutes= new AuthRoutes();
 
 
    constructor() {
@@ -24,6 +26,7 @@ class App {
       this.config();
       this.mongoSetup();
       this.user_routes.route(this.app);
+      this.auth_routes.route(this.app);
       this.activity_routes.route(this.app);
       this.comment_routes.route(this.app);
    }
