@@ -15,9 +15,6 @@ export default class UserService {
       };
     
      public  validatePassword(password:string, person:string) {
-        console.log(password)
-        //const user = await users.findOne({password: password });
-        //console.log('user password es:',user);
         return bcrypt.compare(password, person);
       };
 
