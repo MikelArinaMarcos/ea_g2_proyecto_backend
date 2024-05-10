@@ -11,7 +11,7 @@ import {AuthRoutes} from "../routes/auth";
 class App {
 
    public app: express.Application;
-   public mongoUrl: string = 'mongodb://mongodb:27017/' + environment.getDBName();
+   public mongoUrl: string = 'mongodb://127.0.0.1:27017/' + environment.getDBName();
 
 
    

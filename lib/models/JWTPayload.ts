@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export default interface IJwtPayload {
-    id: string
+    id:  mongoose.Types.ObjectId
   }

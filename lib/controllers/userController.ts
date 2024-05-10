@@ -16,7 +16,7 @@ export class UserController {
                     email: req.body.email,
                     phone_number: req.body.phone_number,
                     gender: req.body.gender,
-                    //birthday: req.body.birthday,
+                    birthday: req.body.birthday,
                     active: true,
                     password: req.body.password
                 };

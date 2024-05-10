@@ -130,8 +130,8 @@ export class ActivityController {
     public async participateActivity(req: Request, res: Response) {
         try{
 
-            const userId = req.body.listUsers;
-            const activityId = req.body._id;
+            const userId = new ObjectId(req.params.id);
+            const activityId = new ObjectId(req.params.activityId);
 
             await this.user_service.addActivityListToUser(userId, activityId);
             await this.activity_service.addListUsersToActivity(activityId, userId);
@@ -142,5 +142,4 @@ export class ActivityController {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
-
 }
