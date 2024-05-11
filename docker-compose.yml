@@ -8,6 +8,15 @@ services:
       - sfmongo
     ports:
       - 3000:3000
+  
+  sffrontend:
+    container_name: frontend
+    image: angela0110/sf_frontend
+    restart: always
+    depends_on:
+      - sfbackend
+    ports:
+      - 8080:8080
 
   sfmongo:
     container_name: mongodb
