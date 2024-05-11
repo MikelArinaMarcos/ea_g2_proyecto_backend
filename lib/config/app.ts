@@ -7,11 +7,13 @@ import { UserRoutes } from "../routes/user";
 import { ActivityRoutes } from "../routes/activity";
 import { CommentRoutes } from "../routes/comment";
 import {AuthRoutes} from "../routes/auth";
+import{Server} from "socket.io";
 
 class App {
 
    public app: express.Application;
    public mongoUrl: string = 'mongodb://127.0.0.1:27017/' + environment.getDBName();
+   private io: Server;
 
 
    
@@ -19,6 +21,7 @@ class App {
    private activity_routes: ActivityRoutes = new ActivityRoutes();
    private comment_routes: CommentRoutes = new CommentRoutes();
    private auth_routes: AuthRoutes= new AuthRoutes();
+   
 
 
    constructor() {
@@ -29,7 +32,11 @@ class App {
       this.auth_routes.route(this.app);
       this.activity_routes.route(this.app);
       this.comment_routes.route(this.app);
+      //this.setupSockets(this.io);
    }
+  
+   
+   
 
    private config(): void {
       // support application/json type post data
@@ -49,5 +56,27 @@ class App {
               console.error("MongoDB connection error:", err);
           });
   }
+
+  private setupSockets(io: Server) : void {
+   
+   this.io = io;
+   
+   const connectedUser = new Set();
+   this.io.on('connection', (socket) => {
+      console.log('Connected successfully', socket.id);
+      connectedUser.add(socket.id);
+      this.io.emit('connected-user', connectedUser.size);
+      socket.on('disconnect', () => {
+         console.log('Disconnected successfully', socket.id);
+         connectedUser.delete(socket.id);
+         this.io.emit('connected-user', connectedUser.size);
+      });
+      socket.on('Message', (data: any) => {
+         console.log(data);
+         socket.broadcast.emit('message-receive', data);
+      });
+   }); 
+}
+
 }
 export default new App().app;
