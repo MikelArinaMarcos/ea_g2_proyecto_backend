@@ -32,7 +32,7 @@ export class AuthController{
         });
         
         console.log (token);
-        return res.status(201).json(token);
+        return res.status(201).json({ token: token, id: userFound._id });
     };
     
 }
