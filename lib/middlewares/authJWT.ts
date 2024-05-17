@@ -4,6 +4,7 @@ import activities from "../models/activities/schema";
 import users from "../models/users/schema";
 import comments from "../models/comments/schema";
 import IJwtPayload from '../models/JWTPayload';
+import { Console } from 'console';
 
 const _SECRET: string = 'api+jwt';
 
@@ -32,13 +33,13 @@ export class AuthJWT {
 
 
   public async isOwner(req: Request, res: Response, next: NextFunction) {
-    
+
     try {
       const userId = req.params.id;
       const user = await users.findById(userId);
 
       if (!user) return res.status(403).json({ message: "No user found" });
-
+      
       if (user._id != req.userId) return res.status(403).json({ message: "Not Owner" });
 
       next();
