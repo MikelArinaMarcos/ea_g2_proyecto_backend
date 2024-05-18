@@ -18,6 +18,15 @@ services:
     ports:
       - 8080:8080
 
+sfbackoffice:
+    container_name: backoffice
+    image: borjafer/backoffice
+    restart: always
+    depends_on:
+      - sfbackend
+    ports:
+      - 80:80
+
   sfmongo:
     container_name: mongodb
     image: mongo:4.4

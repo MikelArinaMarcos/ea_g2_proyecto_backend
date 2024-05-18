@@ -7,6 +7,8 @@ import IJwtPayload from '../models/JWTPayload';
 
 const _SECRET: string = 'api+jwt';
 
+
+
 export class AuthJWT {
 
   public async verifyToken(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +21,7 @@ export class AuthJWT {
       const decoded = jwt.verify(token, _SECRET) as IJwtPayload;
 
       req.userId = decoded.id;
-      const user = await users.findById(req.userId)
+      const user = await users.findById(req.userId);
 
       if (!user) return res.status(404).json({ message: "No user found" });
 
