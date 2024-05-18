@@ -18,7 +18,7 @@ services:
     ports:
       - 8080:8080
 
-sfbackoffice:
+  sfbackoffice:
     container_name: backoffice
     image: borjafer/backoffice
     restart: always
