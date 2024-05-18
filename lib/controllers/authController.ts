@@ -19,7 +19,7 @@ export class AuthController{
         
         const userFound = await this.user_service.filterUser({email: email});
         
-        if (!userFound) return res.status(400).json({ message: "User Not Found" });
+        if (!userFound) return res.status(404).json({ message: "User Not Found" });
     
         if (!await this.user_service.validatePassword(password, userFound.password)) {
             return res.status(401).json({ token: null, message: "Invalid Password",});
@@ -32,7 +32,7 @@ export class AuthController{
         });
         
         console.log (token);
-        return res.status(201).json(token);
+        return res.status(201).json({ token: token, id: userFound._id });
     };
     
 }

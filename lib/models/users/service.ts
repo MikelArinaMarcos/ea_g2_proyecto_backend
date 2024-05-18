@@ -34,7 +34,8 @@ export default class UserService {
 
     public async filterUser(query: any): Promise<IUser | null> {
         try {
-            return await users.findOne(query);
+            const activeQuery = { ...query, active: true };
+            return await users.findOne(activeQuery);
         } catch (error) {
             throw error;
         }

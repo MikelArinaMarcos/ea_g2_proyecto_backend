@@ -1,13 +1,13 @@
 {
-  "name": "seminar5",
+  "name": "SpotFinder",
   "version": "1.0.0",
   "description": "seminar 5 for EA",
   "main": "./dist/server.js",
   "scripts": {
     "start": "node ./dist/server.js",
     "test": "ts-node ./lib/server.ts",
-    "dev": "tsc && nodemon ./dist/server.js",
-    "prod": "tsc && nodemon ./dist/server.js"
+    "dev": "tsc && node ./dist/server.js",
+    "prod": "tsc && node ./dist/server.js"
   },
   "repository": {
     "type": "git",
