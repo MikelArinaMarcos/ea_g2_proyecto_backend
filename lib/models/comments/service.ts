@@ -78,7 +78,7 @@ export default class CommentService {
 
     public async populateComment(query: any): Promise<IComment | null> {
         try {
-            const comment = await comments.findOne(query).populate(['users', 'activities']).exec();
+            const comment = await comments.findOne(query);
             if (!comment) {
                 return null;
             }

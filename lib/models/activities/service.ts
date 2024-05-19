@@ -151,44 +151,11 @@ export default class ActivityService {
         try {
             // Agrega la condición para que solo devuelva actividades con propietario activo
             const activeQuery = { ...query, active: true };
-            const activity = await activities.find(activeQuery)
-                .populate('comments')
-                .populate('owner')
-                .populate('listUsers')
-                .exec();
+            const activity = await activities.find(activeQuery);
     
             return activity;
         } catch (error) {
             console.error("Error en getAll:", error);
-            return null;
-        }
-    }
-    
-
-    public async populateActivityCommentsUsers(query: any): Promise<IActivity | null> {
-        try{
-            const activity = await activities.findOne(query)
-            .populate({
-                path: 'comments',
-                populate: { path: 'users' }, 
-            })
-            .populate({
-                path: 'owner'
-            })
-            .populate('listUsers')
-            .exec();
-
-            if (!activity) {
-                return null;
-            }
-
-            const populatedActivity: IActivity = {
-                ...activity.toObject(),
-                _id: activity._id
-            };
-
-            return populatedActivity;
-        }catch(error){
             return null;
         }
     }

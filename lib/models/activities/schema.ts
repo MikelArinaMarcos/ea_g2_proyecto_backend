@@ -10,6 +10,7 @@ const schema = new Schema({
   owner:{type:Schema.Types.ObjectId, ref: 'users', required: true},
   listUsers: [{type: Schema.Types.ObjectId, ref: 'users', required: false}],
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
+  image: {type: String, required: false },
   date: {type: Date, required: true},
   active: { type: Boolean, required: true }
 });

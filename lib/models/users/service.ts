@@ -127,11 +127,7 @@ export default class UserService {
     public async getAll(query: any): Promise<IUser[] | null> {
         try {
             const activeQuery = { ...query, active: true };
-            const usersWithPopulatedFields = await users.find(activeQuery)
-                .populate('activities')
-                .populate('listActivities')
-                .populate('comments') // Add population for 'comments' field
-                .exec();
+            const usersWithPopulatedFields = await users.find(activeQuery);
     
             const populatedUsers: IUser[] = usersWithPopulatedFields.map(user => ({
                 ...user.toObject(),
@@ -141,30 +137,6 @@ export default class UserService {
             return populatedUsers;
         } catch (error) {
             console.error("Error fetching and populating users:", error);
-            return null;
-        }
-    }
-    
-    public async populateUserActivity(query: any): Promise<IUser | null> {
-        try {
-            const user = await users.findOne(query)
-                .populate('activities')
-                .populate('listActivities')
-                .populate('comments') // Add population for 'comments' field
-                .exec();
-    
-            if (!user) {
-                return null;
-            }
-    
-            const populatedUser: IUser = {
-                ...user.toObject(),
-                _id: user._id
-            };
-    
-            return populatedUser;
-        } catch (error) {
-            console.error("Error fetching and populating user activity:", error);
             return null;
         }
     }
