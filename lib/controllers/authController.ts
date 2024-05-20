@@ -31,7 +31,7 @@ export class AuthController{
             expiresIn: 86400, // 24 hours
         });
         
-        console.log (token);
+        console.log (token, userFound._id);
         return res.status(201).json({ token: token, id: userFound._id });
     };
     
