@@ -30,10 +30,15 @@ io.on('connection', (socket) => {
       connectedUser.delete(socket.id);
       io.emit('connected-user', connectedUser.size);
    });
+
+   socket.on('manual-disconnect', () => {
+      console.log('Manual disconnect requested', socket.id);
+      socket.disconnect();
+  });
+
    socket.on('message', async(data) => {
       const user = await User.findById(data.id)
-      data.userName=user.name;
-   
+      data.userName=user.name;   
       console.log(data);
       socket.broadcast.emit('message-receive', data );
    });
