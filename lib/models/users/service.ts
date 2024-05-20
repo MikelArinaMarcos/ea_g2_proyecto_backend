@@ -127,11 +127,7 @@ export default class UserService {
     public async getAll(query: any): Promise<IUser[] | null> {
         try {
             const activeQuery = { ...query, active: true };
-            const usersWithPopulatedFields = await users.find(activeQuery)
-                .populate('activities')
-                .populate('listActivities')
-                .populate('comments') // Add population for 'comments' field
-                .exec();
+            const usersWithPopulatedFields = await users.find(activeQuery);
     
             const populatedUsers: IUser[] = usersWithPopulatedFields.map(user => ({
                 ...user.toObject(),
@@ -147,11 +143,7 @@ export default class UserService {
     
     public async populateUserActivity(query: any): Promise<IUser | null> {
         try {
-            const user = await users.findOne(query)
-                .populate('activities')
-                .populate('listActivities')
-                .populate('comments') // Add population for 'comments' field
-                .exec();
+            const user = await users.findOne(query);
     
             if (!user) {
                 return null;

@@ -25,6 +25,16 @@ export default class ActivityService {
         }
     }
 
+    public async filterUserActivities(query: any): Promise<IActivity[] | null> {
+        try {
+            console.log(query);
+            return await activities.find({owner: query});
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     public async addCommentToActivity(activityId: Types.ObjectId, comment: IComment): Promise<void> {
         try {
             // Retrieve the user document by ID
@@ -151,11 +161,7 @@ export default class ActivityService {
         try {
             // Agrega la condición para que solo devuelva actividades con propietario activo
             const activeQuery = { ...query, active: true };
-            const activity = await activities.find(activeQuery)
-                .populate('comments')
-                .populate('owner')
-                .populate('listUsers')
-                .exec();
+            const activity = await activities.find(activeQuery);
     
             return activity;
         } catch (error) {
