@@ -39,7 +39,7 @@ export class CommentController {
         try{
             if (req.params.id) {
                 const comment_filter = { _id: req.params.id };
-                const comment_data = await this.comment_service.populateComment(comment_filter);
+                const comment_data = await this.comment_service.filterComment(comment_filter);
                 // Send success response
                 return res.status(200).json({ data: comment_data, message: 'Successful'});
             } else {

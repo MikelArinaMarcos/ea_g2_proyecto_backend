@@ -78,22 +78,4 @@ export default class CommentService {
             throw error;
         }
     }
-
-
-    public async populateComment(query: any): Promise<IComment | null> {
-        try {
-            const comment = await comments.findOne(query);
-            if (!comment) {
-                return null;
-            }
-            const populatedComment: IComment = {
-                ...comment.toObject(),
-                _id: comment._id
-            };
-            return populatedComment;
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
 }
