@@ -26,7 +26,7 @@ export class ActivityController {
                 const activity_data = await this.activity_service.createActivity(activity_params);
                 await this.user_service.addActivityToUser(req.body.owner, activity_data._id);
                 return res.status(201).json({ message: 'Activity created successfully', activity: activity_data });
-            }else{            
+            }else{ 
                 return res.status(400).json({ error: 'Missing fields' });
             }
         }catch(error){

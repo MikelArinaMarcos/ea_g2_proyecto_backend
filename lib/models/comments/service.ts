@@ -2,6 +2,7 @@ import { IComment } from './model';
 import comments from './schema';
 import ActivityService from '../activities/service';
 import mongoose, { Types } from 'mongoose';
+import UserService from '../users/service';
 
 export default class CommentService {
     
@@ -67,6 +68,9 @@ export default class CommentService {
             // Actualizar la actividad asociada
             const activityService = new ActivityService();
             await activityService.updateActivityAfterCommentDeletion(comment.activities, _id);
+
+            const userService = new UserService();
+            await userService.updateUserAfterCommentDeletion(comment.users, _id);
     
             return deletionResult;
 
