@@ -16,7 +16,7 @@ services:
     depends_on:
       - sfbackend
     ports:
-      - 8080:8080
+      - 8080:80
 
   sfbackoffice:
     container_name: backoffice
@@ -40,6 +40,7 @@ services:
     image: 'docker.io/jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
+      - '80:80'
       - '81:81'
       - '443:443'
     volumes:

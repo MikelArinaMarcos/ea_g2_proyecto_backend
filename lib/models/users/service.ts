@@ -127,11 +127,7 @@ export default class UserService {
     public async getAll(query: any): Promise<IUser[] | null> {
         try {
             const activeQuery = { ...query, active: true };
-            const usersWithPopulatedFields = await users.find(activeQuery)
-                .populate('activities')
-                .populate('listActivities')
-                .populate('comments') // Add population for 'comments' field
-                .exec();
+            const usersWithPopulatedFields = await users.find(activeQuery);
     
             const populatedUsers: IUser[] = usersWithPopulatedFields.map(user => ({
                 ...user.toObject(),
@@ -144,28 +140,22 @@ export default class UserService {
             return null;
         }
     }
-    
-    public async populateUserActivity(query: any): Promise<IUser | null> {
+
+    public async updateUserAfterCommentDeletion(userId: mongoose.Types.ObjectId, commentId: string): Promise<void> {
         try {
-            const user = await users.findOne(query)
-                .populate('activities')
-                .populate('listActivities')
-                .populate('comments') // Add population for 'comments' field
-                .exec();
-    
+            // Encontrar la actividad asociada
+            const user = await users.findById(userId);
             if (!user) {
-                return null;
+                throw new Error('Activity not found');
             }
     
-            const populatedUser: IUser = {
-                ...user.toObject(),
-                _id: user._id
-            };
+            // Eliminar el comentario de la lista de comentarios de la actividad
+            user.comments = user.comments.filter(comment => !comment.equals(commentId));
     
-            return populatedUser;
+            await user.save();
+
         } catch (error) {
-            console.error("Error fetching and populating user activity:", error);
-            return null;
+            throw error;
         }
     }
 

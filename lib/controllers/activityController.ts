@@ -20,12 +20,13 @@ export class ActivityController {
                     description: req.body.description,
                     owner: req.body.owner,
                     date: req.body.date,
+                    image: req.body.image,
                     active: true
                 };
                 const activity_data = await this.activity_service.createActivity(activity_params);
                 await this.user_service.addActivityToUser(req.body.owner, activity_data._id);
                 return res.status(201).json({ message: 'Activity created successfully', activity: activity_data });
-            }else{            
+            }else{ 
                 return res.status(400).json({ error: 'Missing fields' });
             }
         }catch(error){
@@ -38,7 +39,7 @@ export class ActivityController {
             if (req.params.id) {
                 const activity_filter = { _id: req.params.id };
                 // Fetch user
-                const post_data = await this.activity_service.populateActivityCommentsUsers(activity_filter);
+                const post_data = await this.activity_service.filterActivity(activity_filter);
                 // Send success response
                 return res.status(200).json({ data: post_data, message: 'Successful'});
             } else {
@@ -109,6 +110,7 @@ export class ActivityController {
                     description: req.body.description,
                     owner: req.body.owner,
                     date: req.body.date,
+                    image: req.body.image,
                     active: true
                 };
                 await this.activity_service.updateActivity(activity_params, activity_filter);

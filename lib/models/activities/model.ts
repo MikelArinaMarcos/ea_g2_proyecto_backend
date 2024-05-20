@@ -8,6 +8,7 @@ export interface IActivity {
     owner: mongoose.Types.ObjectId; //reference to list of users
     listUsers?: mongoose.Types.ObjectId[];
     comments?: mongoose.Types.ObjectId[];
+    image?: string;
     date: Date;
     active: Boolean;
 }
