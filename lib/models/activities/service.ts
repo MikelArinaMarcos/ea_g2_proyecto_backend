@@ -28,7 +28,7 @@ export default class ActivityService {
     public async filterUserActivities(query: any): Promise<IActivity[] | null> {
         try {
             console.log(query);
-            return await activities.find({owner: query});
+            return await activities.find({owner: query, active: true});
         } catch (error) {
             console.log(error);
             throw error;
@@ -148,11 +148,13 @@ export default class ActivityService {
 
     public async deleteActivity(_id: string): Promise<{ deletedCount: number }> {
         try {
+            console.log(_id);
             const query = { _id: _id };
             const update = { active: false };
             const result = await activities.updateOne(query, update);
             return { deletedCount: result.modifiedCount };
         } catch (error) {
+            console.log(error);
             throw error;
         }
     }
@@ -166,35 +168,6 @@ export default class ActivityService {
             return activity;
         } catch (error) {
             console.error("Error en getAll:", error);
-            return null;
-        }
-    }
-    
-
-    public async populateActivityCommentsUsers(query: any): Promise<IActivity | null> {
-        try{
-            const activity = await activities.findOne(query)
-            .populate({
-                path: 'comments',
-                populate: { path: 'users' }, 
-            })
-            .populate({
-                path: 'owner'
-            })
-            .populate('listUsers')
-            .exec();
-
-            if (!activity) {
-                return null;
-            }
-
-            const populatedActivity: IActivity = {
-                ...activity.toObject(),
-                _id: activity._id
-            };
-
-            return populatedActivity;
-        }catch(error){
             return null;
         }
     }

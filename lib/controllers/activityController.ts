@@ -38,7 +38,7 @@ export class ActivityController {
             if (req.params.id) {
                 const activity_filter = { _id: req.params.id };
                 // Fetch user
-                const post_data = await this.activity_service.populateActivityCommentsUsers(activity_filter);
+                const post_data = await this.activity_service.filterActivity(activity_filter);
                 // Send success response
                 return res.status(200).json({ data: post_data, message: 'Successful'});
             } else {
@@ -87,6 +87,7 @@ export class ActivityController {
     public async deleteActivity(req: Request, res: Response) {
         try {
             if (req.params.id) {
+                console.log(req.params.id);
                 // Delete post
                 const delete_details = await this.activity_service.deleteActivity(req.params.id);
                 if (delete_details.deletedCount !== 0) {

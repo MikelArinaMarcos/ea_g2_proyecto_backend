@@ -140,25 +140,4 @@ export default class UserService {
             return null;
         }
     }
-    
-    public async populateUserActivity(query: any): Promise<IUser | null> {
-        try {
-            const user = await users.findOne(query);
-    
-            if (!user) {
-                return null;
-            }
-    
-            const populatedUser: IUser = {
-                ...user.toObject(),
-                _id: user._id
-            };
-    
-            return populatedUser;
-        } catch (error) {
-            console.error("Error fetching and populating user activity:", error);
-            return null;
-        }
-    }
-
 }
