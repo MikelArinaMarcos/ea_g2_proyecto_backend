@@ -86,4 +86,23 @@ export class AuthJWT {
     }
   };
 
+  public async verifyTokenSocket(socket: any, next: (err?: Error) => void) {
+    const token = socket.handshake.auth.token;
+    if (!token) return next(new Error('No token provided'));
+
+    try {
+      const decoded = jwt.verify(token, _SECRET) as IJwtPayload;
+
+      socket.userId = decoded.id;
+      const user = await users.findById(socket.userId);
+
+      if (!user) return next(new Error('No user found'));
+
+      next();
+    } catch (error) {
+      next(new Error('Unauthorized'));
+    }
+  }
 }
+
+
