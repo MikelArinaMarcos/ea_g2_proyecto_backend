@@ -25,6 +25,16 @@ export default class ActivityService {
         }
     }
 
+    public async filterUserActivities(query: any): Promise<IActivity[] | null> {
+        try {
+            console.log(query);
+            return await activities.find({owner: query, active: true});
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     public async addCommentToActivity(activityId: Types.ObjectId, comment: IComment): Promise<void> {
         try {
             // Retrieve the user document by ID
@@ -138,11 +148,13 @@ export default class ActivityService {
 
     public async deleteActivity(_id: string): Promise<{ deletedCount: number }> {
         try {
+            console.log(_id);
             const query = { _id: _id };
             const update = { active: false };
             const result = await activities.updateOne(query, update);
             return { deletedCount: result.modifiedCount };
         } catch (error) {
+            console.log(error);
             throw error;
         }
     }

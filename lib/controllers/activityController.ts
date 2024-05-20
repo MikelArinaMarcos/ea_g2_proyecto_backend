@@ -71,9 +71,24 @@ export class ActivityController {
         }
     }
 
+    public async getUserActivities(req: Request, res: Response) {
+        try{
+            if (req.params.id) {
+                const activity_filter = { _id: req.params.id };
+                const activities = await this.activity_service.filterUserActivities(activity_filter);
+                return res.status(200).json({ data: activities, message: 'Successful'});
+            } else {
+                return res.status(400).json({ error: 'Missing fields' });
+            }
+        }catch(error){
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
     public async deleteActivity(req: Request, res: Response) {
         try {
             if (req.params.id) {
+                console.log(req.params.id);
                 // Delete post
                 const delete_details = await this.activity_service.deleteActivity(req.params.id);
                 if (delete_details.deletedCount !== 0) {
