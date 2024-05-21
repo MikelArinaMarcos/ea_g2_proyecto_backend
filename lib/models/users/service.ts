@@ -140,4 +140,23 @@ export default class UserService {
             return null;
         }
     }
+
+    public async updateUserAfterCommentDeletion(userId: mongoose.Types.ObjectId, commentId: string): Promise<void> {
+        try {
+            // Encontrar la actividad asociada
+            const user = await users.findById(userId);
+            if (!user) {
+                throw new Error('Activity not found');
+            }
+    
+            // Eliminar el comentario de la lista de comentarios de la actividad
+            user.comments = user.comments.filter(comment => !comment.equals(commentId));
+    
+            await user.save();
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
