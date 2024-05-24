@@ -6,18 +6,19 @@ import e = require('express');
 import { ObjectId } from 'mongodb';
 
 export class ActivityController {
-    createActivityWithPosition(req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>) {
-        throw new Error('Method not implemented.');
-    }
 
     private activity_service: ActivityService = new ActivityService();
     private user_service: UserService = new UserService();
 
     public async createActivity(req: Request, res: Response) {
-        try{
-            // this check whether all the filds were send through the request or not
-            if (req.body.name  && req.body.description && req.body.owner && req.body.date){
-                const activity_params:IActivity = {
+        try {
+            // Verificar si la solicitud incluye datos de ubicación
+            const hasLocation = req.body.location && req.body.location.coordinates.length === 2;
+            
+            // Verificar si se proporcionan todos los campos requeridos
+            if (req.body.name && req.body.description && req.body.owner && req.body.date) {
+                // Crear objeto de parámetros de actividad
+                const activity_params: IActivity = {
                     name: req.body.name,
                     rate: 0,
                     description: req.body.description,
@@ -26,13 +27,26 @@ export class ActivityController {
                     image: req.body.image,
                     active: true
                 };
+    
+                // Agregar datos de ubicación si están presentes
+                if (hasLocation) {
+                    activity_params.location = req.body.location;
+                }
+    
+                // Crear la actividad utilizando el servicio correspondiente
                 const activity_data = await this.activity_service.createActivity(activity_params);
+                
+                // Agregar la actividad al usuario
                 await this.user_service.addActivityToUser(req.body.owner, activity_data._id);
+                
+                // Enviar respuesta exitosa
                 return res.status(201).json({ message: 'Activity created successfully', activity: activity_data });
-            }else{ 
+            } else {
+                // Enviar respuesta de error si faltan campos requeridos
                 return res.status(400).json({ error: 'Missing fields' });
             }
-        }catch(error){
+        } catch (error) {
+            // Manejar errores internos del servidor
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
