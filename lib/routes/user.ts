@@ -31,5 +31,8 @@ export class UserRoutes {
             this.user_controller.deleteUser(req, res);
         });
 
+        app.put('/user/:id/location', (req: Request, res: Response) => {
+            this.user_controller.updateUserLocation(req, res);
+        });
     }
 }

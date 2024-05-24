@@ -6,6 +6,9 @@ import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 export default class UserService {
+    updateUserLocation(userId: string, latitude: any, longitude: any) {
+        throw new Error('Method not implemented.');
+    }
 
     public async encryptPassword(password: string) {
         const salt = await bcrypt.genSalt(10);
