@@ -12,7 +12,19 @@ const schema = new Schema({
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
   image: {type: String, required: false },
   date: {type: Date, required: true},
-  active: { type: Boolean, required: true }
+  active: { type: Boolean, required: true },
+  location: {
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: false,
+        default: 'Point'
+    },
+    coordinates: {
+        type: [Number],
+        required: false
+    }
+}
 });
 
 export default mongoose.model('activities', schema);

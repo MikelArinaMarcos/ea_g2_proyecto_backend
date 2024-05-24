@@ -1,5 +1,10 @@
 import * as mongoose from 'mongoose';
 
+interface IPoint {
+    type: 'Point';
+    coordinates: [number, number]; // [longitude, latitude]
+}
+
 export interface IActivity {
     _id?: mongoose.Types.ObjectId; // Optional _id field
     name: string;
@@ -11,4 +16,5 @@ export interface IActivity {
     image?: string;
     date: Date;
     active: Boolean;
+    location?: IPoint; // Nuevo parámetro de tipo Point para poder implementar la localización del evento.
 }
