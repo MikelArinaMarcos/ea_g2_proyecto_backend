@@ -7,22 +7,20 @@ import * as bcrypt from 'bcrypt';
 
 export default class UserService {
 
-
-
-   public async encryptPassword(password:string) {
+    public async encryptPassword(password: string) {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(password, salt);
-      };
-    
-     public  validatePassword(password:string, person:string) {
+    };
+
+    public validatePassword(password: string, person: string) {
         return bcrypt.compare(password, person);
-      };
+    };
 
     public async createUser(user_params: IUser): Promise<IUser> {
         try {
             const session = new users(user_params);
-            session.password= await this.encryptPassword(session.password)
-    
+            session.password = await this.encryptPassword(session.password)
+
             const result = await session.save();
             // Convert _id to string
             const newUser: IUser = { ...result.toObject(), _id: result._id };
@@ -51,16 +49,15 @@ export default class UserService {
 
     public async deleteUser(_id: string): Promise<{ deletedCount: number }> {
         try {
-            
             const activityService = new ActivityService();
-            await activityService.updateActivitiesForDeletedUser(_id);
+            //await activityService.updateActivitiesForDeletedUser(_id);
 
             // Luego, eliminar al usuario
             const query = { _id: _id };
             const update = { active: false };
             const result = await users.updateOne(query, update);
 
-      return { deletedCount: result.modifiedCount };
+            return { deletedCount: result.modifiedCount };
         } catch (error) {
             throw error;
         }
@@ -123,17 +120,16 @@ export default class UserService {
         }
     }
 
-
     public async getAll(query: any): Promise<IUser[] | null> {
         try {
             const activeQuery = { ...query, active: true };
             const usersWithPopulatedFields = await users.find(activeQuery);
-    
+
             const populatedUsers: IUser[] = usersWithPopulatedFields.map(user => ({
                 ...user.toObject(),
                 _id: user._id
             }));
-    
+
             return populatedUsers;
         } catch (error) {
             console.error("Error fetching and populating users:", error);
@@ -143,20 +139,19 @@ export default class UserService {
 
     public async updateUserAfterCommentDeletion(userId: mongoose.Types.ObjectId, commentId: string): Promise<void> {
         try {
-            // Encontrar la actividad asociada
+            // Encontrar el usuario asociado
             const user = await users.findById(userId);
             if (!user) {
-                throw new Error('Activity not found');
+                throw new Error('User not found');
             }
-    
-            // Eliminar el comentario de la lista de comentarios de la actividad
+
+            // Eliminar el comentario de la lista de comentarios del usuario
             user.comments = user.comments.filter(comment => !comment.equals(commentId));
-    
+
             await user.save();
 
         } catch (error) {
             throw error;
         }
     }
-
 }

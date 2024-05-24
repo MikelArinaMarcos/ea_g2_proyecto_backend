@@ -13,6 +13,11 @@ export class ActivityRoutes {
             this.activity_controller.createActivity(req, res);
         });
 
+        // Nueva ruta para crear actividad con posición
+        app.post('/activity/withPosition', (req: Request, res: Response) => {
+            this.activity_controller.createActivityWithPosition(req, res);
+        });
+
         app.get('/activity/:page/:limit', (req: Request, res: Response) => {
             this.activity_controller.getAll(req, res);
         });

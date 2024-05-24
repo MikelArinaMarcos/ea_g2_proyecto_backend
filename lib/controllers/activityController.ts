@@ -6,6 +6,9 @@ import e = require('express');
 import { ObjectId } from 'mongodb';
 
 export class ActivityController {
+    createActivityWithPosition(req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>) {
+        throw new Error('Method not implemented.');
+    }
 
     private activity_service: ActivityService = new ActivityService();
     private user_service: UserService = new UserService();
@@ -37,7 +40,7 @@ export class ActivityController {
     public async getActivity(req: Request, res: Response) {
         try{
             if (req.params.id) {
-                const activity_filter = { _id: req.params.id };
+                const activity_filter = { _id: new ObjectId(req.params.id) }; // Convertir a ObjectId
                 // Fetch user
                 const post_data = await this.activity_service.filterActivity(activity_filter);
                 // Send success response
@@ -74,7 +77,7 @@ export class ActivityController {
     public async getUserActivities(req: Request, res: Response) {
         try{
             if (req.params.id) {
-                const activity_filter = { _id: req.params.id };
+                const activity_filter = { _id: new ObjectId(req.params.id) }; // Convertir a ObjectId
                 const activities = await this.activity_service.filterUserActivities(activity_filter);
                 return res.status(200).json({ data: activities, message: 'Successful'});
             } else {
@@ -89,8 +92,8 @@ export class ActivityController {
         try {
             if (req.params.id) {
                 console.log(req.params.id);
-                // Delete post
-                const delete_details = await this.activity_service.deleteActivity(req.params.id);
+                // Convertir a ObjectId
+                const delete_details = await this.activity_service.deleteActivity(new ObjectId(req.params.id));
                 if (delete_details.deletedCount !== 0) {
                     // Send success response if user deleted
                     return res.status(200).json({ message: 'Successful'});
@@ -111,7 +114,7 @@ export class ActivityController {
     public async updateActivity(req: Request, res: Response) {
         try {
             if (req.params.id) {
-                const activity_filter = { _id: req.params.id };
+                const activity_filter = { _id: new ObjectId(req.params.id) }; // Convertir a ObjectId
                 // Fetch user
                 const activity_data = await this.activity_service.filterActivity(activity_filter);
                 if (!activity_data) {
@@ -147,8 +150,8 @@ export class ActivityController {
     public async participateActivity(req: Request, res: Response) {
         try{
 
-            const userId = new ObjectId(req.params.id);
-            const activityId = new ObjectId(req.params.activityId);
+            const userId = new ObjectId(req.params.id); // Convertir a ObjectId
+            const activityId = new ObjectId(req.params.activityId); // Convertir a ObjectId
 
             await this.user_service.addActivityListToUser(userId, activityId);
             await this.activity_service.addListUsersToActivity(activityId, userId);
