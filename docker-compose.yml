@@ -1,7 +1,7 @@
-version: '2.2'
+version: '2.4'
 services:
   sfbackend:
-    container_name: backend
+    container_name: sfbackend
     image: mercadonaenjoyer/sf_backend
     restart: always
     depends_on:
@@ -10,7 +10,7 @@ services:
       - 3000:3000
   
   sffrontend:
-    container_name: frontend
+    container_name: sffrontend
     image: angela0110/sf_frontend
     restart: always
     depends_on:
@@ -19,7 +19,7 @@ services:
       - 8080:80
 
   sfbackoffice:
-    container_name: backoffice
+    container_name: sfbackoffice
     image: borjafer/backoffice
     restart: always
     depends_on:
@@ -46,3 +46,5 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+
+

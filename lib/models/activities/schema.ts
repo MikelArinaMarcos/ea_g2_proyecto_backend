@@ -12,7 +12,9 @@ const schema = new Schema({
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
   image: {type: String, required: false },
   date: {type: Date, required: true},
-  active: { type: Boolean, required: true }
+  active: { type: Boolean, required: true },
+  latitude:{type: Number, required: true },
+  longitude:{type: Number, required: true }
 });
 
 export default mongoose.model('activities', schema);

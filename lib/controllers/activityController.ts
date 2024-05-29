@@ -21,7 +21,9 @@ export class ActivityController {
                     owner: req.body.owner,
                     date: req.body.date,
                     image: req.body.image,
-                    active: true
+                    active: true,
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude
                 };
                 const activity_data = await this.activity_service.createActivity(activity_params);
                 await this.user_service.addActivityToUser(req.body.owner, activity_data._id);
@@ -121,12 +123,13 @@ export class ActivityController {
     
                 const activity_params: IActivity = {
                     name: req.body.name,
-                    rate: req.body.rate,
                     description: req.body.description,
                     owner: req.body.owner,
                     date: req.body.date,
                     image: req.body.image,
-                    active: true
+                    active: true,
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude
                 };
                 await this.activity_service.updateActivity(activity_params, activity_filter);
                 //get new activity data
