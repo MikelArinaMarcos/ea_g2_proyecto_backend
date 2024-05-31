@@ -6,6 +6,29 @@ import mongoose, { Types } from 'mongoose';
 
 export default class ActivityService {
     public async createActivity(activity_params: IActivity): Promise<IActivity> {
+        console.log("activity params", activity_params);
+        let position = [];
+        position.push(activity_params.location.coordinates[0]);
+        position.push(activity_params.location.coordinates[1]);
+        
+        /*let _theActivity = {
+            name: activity_params.name ,
+            description: activity_params.description,
+            date: activity_params.date,
+            active: true,
+            location: {
+          type: {
+            type: String,
+            enum: ['Point'],
+            required: false,
+            default: 'Point'
+          },
+          coordinates: {
+            type: [Number],
+            required: false
+          };
+*/
+        console.log("coordenades", position);
         try {
             const session = new activities(activity_params);
             return await session.save() as unknown as IActivity;
