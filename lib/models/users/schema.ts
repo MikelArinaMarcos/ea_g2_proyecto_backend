@@ -12,7 +12,19 @@ const schema = new Schema({
     listActivities: [{ type: Schema.Types.ObjectId, ref: 'activities' }], //Lista de actividades en las que participa
     comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
     active: Boolean,
-    password: String // Add a 'password' field to store the hashed password
+    password: String, // Add a 'password' field to store the hashed password
+    location: {
+        type: {
+          type: String,
+          enum: ['Point'],
+          required: false,
+          default: 'Point'
+        },
+        coordinates: {
+          type: [Number],
+          required: false
+        }
+      }
     }
 );
 

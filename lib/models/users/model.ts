@@ -1,5 +1,10 @@
 import * as mongoose from 'mongoose';
 
+interface IPoint {
+    type: 'Point';
+    coordinates: [number, number]; // [longitude, latitude]
+}
+
 export interface IUser {
     _id?: mongoose.Types.ObjectId;
     name: string;
@@ -12,4 +17,5 @@ export interface IUser {
     comments?: mongoose.Types.ObjectId[]; // Array to store post IDs
     active: Boolean;
     password: string // Add a 'password' field to store the hashed password
+    location?: IPoint;
 }

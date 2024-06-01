@@ -22,6 +22,9 @@ export default class UserService {
     public async createUser(user_params: IUser): Promise<IUser> {
         try {
             const session = new users(user_params);
+            if (typeof session.password !== 'string') {
+                throw new Error('Invalid password');
+            }
             session.password = await this.encryptPassword(session.password)
 
             const result = await session.save();
