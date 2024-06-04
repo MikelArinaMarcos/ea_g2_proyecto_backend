@@ -30,9 +30,5 @@ export class UserRoutes {
         app.put('/user/delete/:id', this.auth_JWT.verifyToken.bind(this.auth_JWT), this.auth_JWT.isOwner.bind(this.auth_JWT), (req: Request, res: Response) => {
             this.user_controller.deleteUser(req, res);
         });
-
-        app.put('/user/:id/location', (req: Request, res: Response) => {
-            this.user_controller.updateUserLocation(req, res);
-        });
     }
 }
