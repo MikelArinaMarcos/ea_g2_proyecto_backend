@@ -25,7 +25,9 @@ export class ActivityController {
                     owner: req.body.owner,
                     date: req.body.date,
                     image: req.body.image,
-                    active: true
+                    active: true,
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude
                 };
     
                 // Agregar datos de ubicación si están presentes
@@ -138,12 +140,13 @@ export class ActivityController {
     
                 const activity_params: IActivity = {
                     name: req.body.name,
-                    rate: req.body.rate,
                     description: req.body.description,
                     owner: req.body.owner,
                     date: req.body.date,
                     image: req.body.image,
-                    active: true
+                    active: true,
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude
                 };
                 await this.activity_service.updateActivity(activity_params, activity_filter);
                 //get new activity data

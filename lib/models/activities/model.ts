@@ -11,6 +11,8 @@ export interface IActivity {
     description: string; // Reference to description about activities
     rate?: Number;
     owner: mongoose.Types.ObjectId; //reference to list of users
+    latitude: Number;
+    longitude: Number;
     listUsers?: mongoose.Types.ObjectId[];
     comments?: mongoose.Types.ObjectId[];
     image?: string;
