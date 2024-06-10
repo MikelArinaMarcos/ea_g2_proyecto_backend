@@ -32,6 +32,8 @@ export class AuthRoutes {
     });
 
     app.post('/signin', (req: Request, res: Response) => { this.auth_controller.signin(req, res); });
-  }
 
+    app.post('/refresh_token',  (req: Request, res: Response) => { this.auth_controller.refreshToken(req, res); })
+  
+  }
 }

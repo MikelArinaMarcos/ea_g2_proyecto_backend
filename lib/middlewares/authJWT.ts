@@ -15,6 +15,7 @@ export class AuthJWT {
   public async verifyToken(req: Request, res: Response, next: NextFunction) {
 
     const token = req.header("x-access-token");
+    console.log(token);
     if (!token) return res.status(403).json({ message: "No token provided" });
 
     try {
@@ -32,7 +33,6 @@ export class AuthJWT {
       return res.status(400).json({ message: "Unauthorized!" });
     }
   }
-
 
   public async isOwner(req: Request, res: Response, next: NextFunction) {
 
