@@ -24,7 +24,7 @@ export class CommentController {
           content: req.body.content,
           users: req.body.users,
           activities: req.body.activities,
-          review: req.body.review
+          review: req.body.review,
         };
         const comment_data =
           await this.comment_service.createComment(comment_params);
@@ -38,7 +38,7 @@ export class CommentController {
         );
         return res.status(201).json({
           message: 'Comment created successfully',
-          comment: comment_data
+          comment: comment_data,
         });
       } else {
         return res.status(400).json({ error: 'Missing fields' });
@@ -113,7 +113,7 @@ export class CommentController {
           content: req.body.content || comment_data.content,
           users: req.body.user || comment_data.users,
           activities: req.body.activity || comment_data.activities,
-          review: req.body.review || comment_data.review
+          review: req.body.review || comment_data.review,
         };
         await this.comment_service.updateComment(
           comment_params,

@@ -18,13 +18,13 @@ const schema = new Schema({
       type: String,
       enum: ['Point'],
       required: false,
-      default: 'Point'
+      default: 'Point',
     },
     coordinates: {
       type: [Number],
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 });
 
 export default mongoose.model('users', schema);

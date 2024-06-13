@@ -29,11 +29,11 @@ export class AuthController {
     const session = { id: userFound._id } as IJwtPayload;
 
     const token = jwt.sign(session, this._SECRET, {
-      expiresIn: 86400
+      expiresIn: 86400,
     });
 
     const refreshToken = jwt.sign(session, this._REFRESH_SECRET, {
-      expiresIn: 604800 // 7 days
+      expiresIn: 604800, // 7 days
     });
 
     return res
@@ -60,11 +60,11 @@ export class AuthController {
       const session = { id: userFound._id } as IJwtPayload;
 
       const new_token = jwt.sign(session, this._SECRET, {
-        expiresIn: 86400
+        expiresIn: 86400,
       });
 
       const new_refreshToken = jwt.sign(session, this._REFRESH_SECRET, {
-        expiresIn: 604800 // 7 days
+        expiresIn: 604800, // 7 days
       });
 
       console.log(new_token);

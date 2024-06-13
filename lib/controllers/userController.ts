@@ -21,7 +21,7 @@ export class UserController {
           gender: req.body.gender,
           birthday: req.body.birthday,
           active: true,
-          password: req.body.password
+          password: req.body.password,
         };
         const user_data = await this.user_service.createUser(user_params);
         return res
@@ -94,7 +94,7 @@ export class UserController {
           birthday: req.body.birthday || user_data.birthday,
           active: true,
           password: req.body.password || user_data.password,
-          location: req.body.location || user_data.location
+          location: req.body.location || user_data.location,
         };
         await this.user_service.updateUser(user_params, user_filter);
         //get new user data
