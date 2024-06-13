@@ -31,7 +31,7 @@ export class ActivityController {
           image: req.body.image,
           active: true,
           latitude: req.body.latitude,
-          longitude: req.body.longitude
+          longitude: req.body.longitude,
         };
 
         // Agregar datos de ubicación si están presentes
@@ -52,7 +52,7 @@ export class ActivityController {
         // Enviar respuesta exitosa
         return res.status(201).json({
           message: 'Activity created successfully',
-          activity: activity_data
+          activity: activity_data,
         });
       } else {
         // Enviar respuesta de error si faltan campos requeridos
@@ -83,9 +83,10 @@ export class ActivityController {
 
   public async getAll(req: Request, res: Response) {
     try {
-      const activity_filter = {};
-      const activity_data = await this.activity_service.getAll(activity_filter);
-      const total = activity_data.length;
+      const user_filter = { _id: req.params.id };
+      const user_data = await this.user_service.filterUser(user_filter);
+      const activity_data = await this.activity_service.getAll(user_data, parseInt(req.params.distance, 10));
+      const total = activity_data.length; 
       const page = Number(req.params.page); // Convertir a número
       const limit = Number(req.params.limit); // Convertir a número
       const startIndex = (page - 1) * limit;
@@ -96,7 +97,7 @@ export class ActivityController {
       return res.status(200).json({
         activities: resultActivity,
         totalPages: totalPages,
-        totalActivity: total
+        totalActivity: total,
       });
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -166,7 +167,7 @@ export class ActivityController {
           image: req.body.image,
           active: true,
           latitude: req.body.latitude,
-          longitude: req.body.longitude
+          longitude: req.body.longitude,
         };
         await this.activity_service.updateActivity(
           activity_params,

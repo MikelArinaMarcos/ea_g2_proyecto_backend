@@ -9,9 +9,9 @@ const schema = new Schema({
   activities: {
     type: Schema.Types.ObjectId,
     ref: 'activities',
-    required: true
+    required: true,
   },
-  review: { type: Number, required: true } // Array of ObjectIds referencing the Activity model
+  review: { type: Number, required: true }, // Array of ObjectIds referencing the Activity model
 });
 
 export default mongoose.model('comments', schema);

@@ -17,13 +17,13 @@ const activitySchema = new Schema({
       type: String,
       enum: ['Point'],
       required: false,
-      default: 'Point'
+      default: 'Point',
     },
     coordinates: {
       type: [Number],
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 });
 
 // Index for geospatial queries

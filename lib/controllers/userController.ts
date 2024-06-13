@@ -96,7 +96,7 @@ export class UserController {
           active: true,
           image: req.body.image || user_data.image,
           password: req.body.password || user_data.password,
-          location: req.body.location || user_data.location
+          location: req.body.location || user_data.location,
         };
         await this.user_service.updateUser(user_params, user_filter);
         //get new user data

@@ -1,5 +1,6 @@
 import { IComment } from 'models/comments/model';
 import { IActivity } from './model';
+import { IUser } from 'models/users/model';
 import activities from './schema';
 import comments from '../comments/schema';
 import mongoose, { Types } from 'mongoose';
@@ -174,10 +175,20 @@ export default class ActivityService {
     }
   }
 
-  public async getAll(query: any): Promise<IActivity[] | null> {
+  public async getAll(user: IUser, distance: number): Promise<IActivity[] | null> {
     try {
-      const activeQuery = { ...query, active: true };
-      return (await activities.find(activeQuery).exec()) as unknown as
+      return activities.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [user.location.coordinates[0], user.location.coordinates[1]] // User's coordinates
+            },
+            $maxDistance: distance // Specify the maximum distance (radius)
+          }
+        },
+        active: true
+      }) as unknown as
         | IActivity[]
         | null;
     } catch (error) {

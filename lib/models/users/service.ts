@@ -136,7 +136,7 @@ export default class UserService {
 
       const populatedUsers: IUser[] = usersWithPopulatedFields.map((user) => ({
         ...user.toObject(),
-        _id: user._id
+        _id: user._id,
       }));
 
       return populatedUsers;

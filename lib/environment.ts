@@ -2,7 +2,7 @@ enum Environments {
   local_environment = 'local',
   dev_environment = 'dev',
   prod_environment = 'prod',
-  qa_environment = 'qa'
+  qa_environment = 'qa',
 }
 
 class Environment {
