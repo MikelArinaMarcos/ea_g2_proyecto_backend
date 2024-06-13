@@ -21,6 +21,7 @@ export class UserController {
           gender: req.body.gender,
           birthday: req.body.birthday,
           active: true,
+          image: req.body.image,
           password: req.body.password
         };
         const user_data = await this.user_service.createUser(user_params);
@@ -93,6 +94,7 @@ export class UserController {
           gender: req.body.gender || user_data.gender,
           birthday: req.body.birthday || user_data.birthday,
           active: true,
+          image: req.body.image || user_data.image,
           password: req.body.password || user_data.password,
           location: req.body.location || user_data.location
         };

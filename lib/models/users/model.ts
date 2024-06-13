@@ -16,6 +16,7 @@ export interface IUser {
   listActivities?: mongoose.Types.ObjectId[]; //Lista de actividades en las que participa
   comments?: mongoose.Types.ObjectId[]; // Array to store post IDs
   active: boolean;
+  image?: string;
   password: string; // Add a 'password' field to store the hashed password
   location?: IPoint;
 }
