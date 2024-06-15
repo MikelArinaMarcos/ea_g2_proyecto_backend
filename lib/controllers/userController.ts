@@ -94,7 +94,7 @@ export class UserController {
           gender: req.body.gender || user_data.gender,
           birthday: req.body.birthday || user_data.birthday,
           active: true,
-          image: req.body.image || user_data.image,
+          image: req.body.image,
           password: req.body.password || user_data.password,
           location: req.body.location || user_data.location,
         };
