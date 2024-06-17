@@ -194,28 +194,7 @@ export default class ActivityService {
 
   public async getAll(user: IUser, distance: number): Promise<IActivity[] | null> {
     try {
-      return activities.find({
-        location: {
-          $near: {
-            $geometry: {
-              type: "Point",
-              coordinates: [user.location.coordinates[0], user.location.coordinates[1]] // User's coordinates
-            },
-            $maxDistance: distance // Specify the maximum distance (radius)
-          }
-        },
-        active: true
-      }) as unknown as
-        | IActivity[]
-        | null;
-    } catch (error) {
-      console.error('Error en getAll:', error);
-      return null;
-    }
-  }
-
-  public async getByName(user: IUser, distance: number, search: string): Promise<IActivity[] | null> {
-    try {
+      const currentDate = new Date();
       return activities.find({
         location: {
           $near: {
@@ -227,7 +206,32 @@ export default class ActivityService {
           }
         },
         active: true,
-        "name": { "$regex": search, "$options": "i" }
+        date: { $gt: currentDate}
+      }) as unknown as
+        | IActivity[]
+        | null;
+    } catch (error) {
+      console.error('Error en getAll:', error);
+      return null;
+    }
+  }
+
+  public async getByName(user: IUser, distance: number, search: string): Promise<IActivity[] | null> {
+    try {
+      const currentDate = new Date();
+      return activities.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [user.location.coordinates[0], user.location.coordinates[1]] // User's coordinates
+            },
+            $maxDistance: distance // Specify the maximum distance (radius)
+          }
+        },
+        active: true,
+        "name": { "$regex": search, "$options": "i" },
+        date: { $gt: currentDate}
       }) as unknown as
         | IActivity[]
         | null;
