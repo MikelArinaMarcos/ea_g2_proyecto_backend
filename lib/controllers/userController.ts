@@ -37,31 +37,11 @@ export class UserController {
     }
   }
 
-<<<<<<< HEAD
-   
-
-    public async getAll(req: Request, res: Response) {
-        try {
-            const user_filter = {};
-            const user_data = await this.user_service.getAll(user_filter);
-            let total=user_data.length;
-            
-            const page = Number(req.params.page); // Convertir a número
-            const limit = Number(req.params.limit); // Convertir a número
-            const startIndex = (page - 1) * limit;
-            const endIndex = page * limit;
-            let totalPages= Math.ceil(total/limit);
-    
-            const resultUser = user_data.slice(startIndex, endIndex);
-         
-            return res.status(200).json({users:resultUser,totalPages:totalPages,totalUser:total});
-=======
   public async getAll(req: Request, res: Response) {
     try {
       const user_filter = {};
       const user_data = await this.user_service.getAll(user_filter);
       const total = user_data.length;
->>>>>>> a7d8c88fab221218a965493d91adb5aa949d1081
 
       const page = Number(req.params.page); // Convertir a número
       const limit = Number(req.params.limit); // Convertir a número
@@ -107,28 +87,6 @@ export class UserController {
           return res.status(400).json({ error: 'User not found' });
         }
 
-<<<<<<< HEAD
-    public async deleteUser(req: Request, res: Response) {
-        try {
-            if (req.params.id) {
-                // Delete user
-                const delete_details = await this.user_service.deleteUser(req.params.id);
-                if (delete_details.deletedCount !== 0) {
-                    // Send success response if user deleted
-                    return res.status(200).json({ message: 'Successful'});
-                } else {
-                    // Send failure response if user not found
-                    return res.status(400).json({ error: 'User not found' });
-                }
-            } else   {
-                // Send error response if ID parameter is missing
-                return res.status(400).json({ error: 'Missing Id' });
-            }
-        } catch (error) {
-            // Catch and handle any errors
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-=======
         const user_params: IUser = {
           name: req.body.name || user_data.name, // Provide empty name object if not provided
           email: req.body.email || user_data.email,
@@ -155,7 +113,6 @@ export class UserController {
       // Catch and handle any errors
       console.error('Error updating:', error);
       return res.status(500).json({ error: 'Internal server error' });
->>>>>>> a7d8c88fab221218a965493d91adb5aa949d1081
     }
   }
 
