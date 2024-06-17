@@ -1,40 +1,40 @@
 enum Environments {
-    local_environment = 'local',
-    dev_environment = 'dev',
-    prod_environment = 'prod',
-    qa_environment = 'qa'
+  local_environment = 'local',
+  dev_environment = 'dev',
+  prod_environment = 'prod',
+  qa_environment = 'qa',
 }
 
 class Environment {
-    private environment: String;
+  private environment: string;
 
-    constructor(environment: String) {
-        this.environment = environment;
-    }
+  constructor(environment: string) {
+    this.environment = environment;
+  }
 
-    getPort(): Number {
-        if (this.environment === Environments.prod_environment) {
-            return 8081;
-        } else if (this.environment === Environments.dev_environment) {
-            return 8082;
-        } else if (this.environment === Environments.qa_environment) {
-            return 8083;
-        } else {
-            return 3000;
-        }
+  getPort(): number {
+    if (this.environment === Environments.prod_environment) {
+      return 8081;
+    } else if (this.environment === Environments.dev_environment) {
+      return 8082;
+    } else if (this.environment === Environments.qa_environment) {
+      return 8083;
+    } else {
+      return 3000;
     }
+  }
 
-    getDBName(): String {
-        if (this.environment === Environments.prod_environment) {
-            return 'db_spotfinder_prod';
-        } else if (this.environment === Environments.dev_environment) {
-            return 'db_spotfinder_dev';
-        } else if (this.environment === Environments.qa_environment) {
-            return 'db_spotfinder_qa';
-        } else {
-            return 'db_spotfinder_local';
-        }
+  getDBName(): string {
+    if (this.environment === Environments.prod_environment) {
+      return 'db_spotfinder_prod';
+    } else if (this.environment === Environments.dev_environment) {
+      return 'db_spotfinder_dev';
+    } else if (this.environment === Environments.qa_environment) {
+      return 'db_spotfinder_qa';
+    } else {
+      return 'db_spotfinder_local';
     }
+  }
 }
 
 export default new Environment(Environments.local_environment);
