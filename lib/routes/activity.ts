@@ -54,5 +54,14 @@ export class ActivityRoutes {
         this.activity_controller.participateActivity(req, res);
       }
     );
+
+    app.put(
+      '/activity/leave/:id/:activityId',
+      this.auth_JWT.verifyToken.bind(this.auth_JWT),
+      this.auth_JWT.isOwner.bind(this.auth_JWT),
+      (req: Request, res: Response) => {
+        this.activity_controller.leaveActivity(req, res);
+      }
+    );
   }
 }

@@ -228,4 +228,18 @@ export class ActivityController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  public async leaveActivity(req: Request, res: Response) {
+    try {
+      const userId = new ObjectId(req.params.id); // Convertir a ObjectId
+      const activityId = new ObjectId(req.params.activityId); // Convertir a ObjectId
+
+      await this.user_service.leaveActivityListToUser(userId, activityId);
+      await this.activity_service.leaveListUsersToActivity(activityId, userId);
+
+      return res.status(201).json({ message: 'Successful update' });
+    } catch (error) {
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
 }

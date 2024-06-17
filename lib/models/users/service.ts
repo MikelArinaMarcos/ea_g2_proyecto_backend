@@ -109,6 +109,26 @@ export default class UserService {
     }
   }
 
+  public async leaveActivityListToUser(userId: Types.ObjectId, activityId: Types.ObjectId): Promise<void> {
+    try {
+      // Retrieve the user document by ID
+      const user = await users.findById(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      const index = user.listActivities.indexOf(activityId)
+      if(index !== -1){
+        user.listActivities.splice(index, 1);
+      }
+
+      // Save the updated user document
+      await user.save();
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   public async addCommentToUser(
     userId: Types.ObjectId,
     commentId: Types.ObjectId

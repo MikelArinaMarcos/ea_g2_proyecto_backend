@@ -83,6 +83,23 @@ export default class ActivityService {
     }
   }
 
+  public async leaveListUsersToActivity(activityId: Types.ObjectId, userId: Types.ObjectId): Promise<void> {
+    try {
+      const activity = await activities.findById(activityId).exec();
+      if (!activity) {
+        throw new Error('Activity not found');
+      }
+      const index = activity.listUsers.indexOf(userId)
+      if(index !== -1){
+        activity.listUsers.splice(index, 1);
+      }
+
+      await activity.save();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async updateActivityAfterCommentDeletion(
     activityId: mongoose.Types.ObjectId,
     commentId: string
