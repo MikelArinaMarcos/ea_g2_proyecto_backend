@@ -196,4 +196,27 @@ export default class ActivityService {
       return null;
     }
   }
+
+  public async getByName(user: IUser, distance: number, search: string): Promise<IActivity[] | null> {
+    try {
+      return activities.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [user.location.coordinates[0], user.location.coordinates[1]] // User's coordinates
+            },
+            $maxDistance: distance // Specify the maximum distance (radius)
+          }
+        },
+        active: true,
+        "name": { "$regex": search, "$options": "i" }
+      }) as unknown as
+        | IActivity[]
+        | null;
+    } catch (error) {
+      console.error('Error en getAll:', error);
+      return null;
+    }
+  }
 }
