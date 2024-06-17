@@ -31,6 +31,8 @@ export class UserController {
         }
     }
 
+   
+
     public async getAll(req: Request, res: Response) {
         try {
             const user_filter = {};
@@ -121,7 +123,7 @@ export class UserController {
                     // Send failure response if user not found
                     return res.status(400).json({ error: 'User not found' });
                 }
-            } else {
+            } else   {
                 // Send error response if ID parameter is missing
                 return res.status(400).json({ error: 'Missing Id' });
             }

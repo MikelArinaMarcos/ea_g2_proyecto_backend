@@ -18,4 +18,5 @@ export interface IUser {
     active: Boolean;
     password: string // Add a 'password' field to store the hashed password
     location?: IPoint;
+    
 }
