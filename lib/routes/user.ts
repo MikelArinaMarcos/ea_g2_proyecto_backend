@@ -20,6 +20,10 @@ export class UserRoutes {
           this.user_controller.checkEmailExists(req, res);
         });
 
+        app.post('/signin/google/:email', (req: Request, res: Response) => {
+          this.user_controller.signingooggle(req, res);
+        });
+
    
 
     app.get('/user/:page/:limit', (req: Request, res: Response) => {

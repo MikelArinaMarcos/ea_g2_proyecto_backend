@@ -110,6 +110,23 @@ export class UserController {
     }
   }
 
+  public async signingooggle(req: Request, res: Response): Promise<Response> {
+    const email = req.body.email;
+  
+    try {
+      const userFound = await this.user_service.filterUser({ email: email });
+  
+      if (!userFound) {
+        return res.status(404).json({ message: 'User Not Found' });
+      }
+  
+      return res.status(200).json({ id: userFound._id });
+    } catch (error) {
+      console.error('Error during signin:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
+
   public async getUser(req: Request, res: Response) {
     try {
       if (req.params.id) {
