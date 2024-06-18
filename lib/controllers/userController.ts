@@ -75,7 +75,7 @@ export class UserController {
       const email = req.params.email; // Obtener el correo electrónico de los parámetros de la solicitud
       const isEmailRegistered = await this.user_service.checkEmailExists(email);
   
-      return res.status(200).json({ exists: isEmailRegistered });
+      return res.status(200).json({ isEmailRegistered });
     } catch (error) {
       console.error('Error checking email:', error);
       return res.status(500).json({ error: 'Internal server error' });

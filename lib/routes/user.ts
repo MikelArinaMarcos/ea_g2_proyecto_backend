@@ -12,7 +12,7 @@ export class UserRoutes {
     });
 
 
-     app.post('/user/Google', (req: Request, res: Response) => {
+     app.post('/user/google', (req: Request, res: Response) => {
           this.user_controller.createUserGoogle(req, res);
         });
 
