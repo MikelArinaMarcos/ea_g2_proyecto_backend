@@ -5,11 +5,12 @@
        "pretty": true,
        "target": "es6",
        "outDir": "./dist",
-       "baseUrl": "./lib"
+       "baseUrl": "./lib",
+       "typeRoots": ["./node_modules/@types", "./types"]
     },
     "include": [
        "lib/**/*.ts"
-    ],
+, "express-session.d.ts"    ],
     "exclude": [
        "node_modules"
     ]
