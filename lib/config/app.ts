@@ -8,7 +8,7 @@ import { ActivityRoutes } from '../routes/activity';
 import { CommentRoutes } from '../routes/comment';
 import { AuthRoutes } from '../routes/auth';
 import { Server } from 'socket.io';
-
+ 
 class App {
   public app: express.Application;
   public mongoUrl: string =
