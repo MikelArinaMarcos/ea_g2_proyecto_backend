@@ -11,8 +11,25 @@ export class UserRoutes {
       this.user_controller.createUser(req, res);
     });
 
+
+     app.post('/user/google', (req: Request, res: Response) => {
+          this.user_controller.createUserGoogle(req, res);
+        });
+
+        app.get('/user/check-email/:email', (req: Request, res: Response) => {
+          this.user_controller.checkEmailExists(req, res);
+        });
+
+       
+
+   
+
     app.get('/user/:page/:limit', (req: Request, res: Response) => {
       this.user_controller.getAll(req, res);
+    });
+
+    app.get('/user/check-id/:id', (req: Request, res: Response) => {
+      this.user_controller.checkIdGoogleExists(req, res);
     });
 
     app.get('/user/:id', (req: Request, res: Response) => {

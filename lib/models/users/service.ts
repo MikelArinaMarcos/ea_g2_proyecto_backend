@@ -29,27 +29,48 @@ export default class UserService {
     } catch (error) {
       throw error;
     }
-<<<<<<< HEAD
-   /*  public async createUserGoogle(user_params: IUser): Promise<IUser> {
-        try {
-            const session = new users(user_params);
-            const user= await user.
-            if (typeof session.password !== ) {
-                throw new Error('Invalid password');
-            }
-            //session.password = await this.encryptPassword(session.password)
-
-            const result = await session.save();
-            // Convert _id to string
-            const newUser: IUser = { ...result.toObject(), _id: result._id };
-            return newUser;
-        } catch (error) {
-            throw error;
-        }
-    } */
-=======
   }
->>>>>>> a7d8c88fab221218a965493d91adb5aa949d1081
+
+  public async createUserGoogle(user_params: IUser): Promise<IUser> {
+    try {
+      // Verificar si ya existe un usuario con el mismo correo electrónico
+      const existingUser = await users.findOne({ email: user_params.email });
+      if (existingUser) {
+        throw new Error('User with this email already exists');
+      }
+  
+      // Si no existe, proceder con la creación del usuario
+      const session = new users(user_params);
+      if (typeof session.password !== 'string') {
+        throw new Error('Invalid password');
+      }
+      session.password = await this.encryptPassword(session.password);
+  
+      const result = await session.save();
+      const newUser: IUser = { ...result.toObject(), _id: result._id };
+      return newUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async checkEmailExists(email: string): Promise<boolean> {
+    try {
+      const existingUser = await users.findOne({ email: email });
+      return !!existingUser; // Devuelve true si existe el usuario, false si no existe
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  public async checkIdGoogleExists(id: string): Promise<boolean> {
+    try {
+      const existingUser = await users.findOne({ _id: id });
+      return !!existingUser.idGoogle; // Devuelve true si existe el usuario, false si no existe
+    } catch (error) {
+      throw error;
+    }
+  }
 
   public async filterUser(query: any): Promise<IUser | null> {
     try {
@@ -105,6 +126,8 @@ export default class UserService {
       throw error;
     }
   }
+
+  
 
   //Añadir actividad en el historial
   public async addActivityListToUser(

@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
 import { IUser } from '../models/users/model';
 import UserService from '../models/users/service';
+import { AuthController } from './authController';
+import * as crypto from 'crypto';
+import * as jwt from 'jsonwebtoken';
+import IJwtPayload from 'models/JWTPayload';
 
 export class UserController {
-  private user_service: UserService = new UserService();
+  private _SECRET: string = 'api+jwt';
 
+  refreshTokenSecret = crypto.randomBytes(64).toString('hex');
+  private _REFRESH_SECRET: string = this.refreshTokenSecret;
+  private user_service: UserService = new UserService();
+  
+  
   public async createUser(req: Request, res: Response) {
     try {
       if (
@@ -37,31 +46,93 @@ export class UserController {
     }
   }
 
-<<<<<<< HEAD
-   
+  public async createUserGoogle(req: Request, res: Response) {
+    try {
+      if (
+        req.body.name &&
+        req.body.email &&
+        req.body.phone_number &&
+        req.body.gender &&
+        req.body.password &&
+        req.body.image 
+        
+      ) {
+        const user_params: IUser = {
+          
+          name: req.body.name,
+          email: req.body.email,
+          phone_number: req.body.phone_number,
+          gender: req.body.gender,
+          birthday: req.body.birthday,
+          active: true,
+          image: req.body.image,
+          password: req.body.password
+        };
+        const user_data = await this.user_service.createUserGoogle(user_params);
+        const email = req.body.email;
+        const userFound = await this.user_service.filterUser({ email: email });
 
-    public async getAll(req: Request, res: Response) {
-        try {
-            const user_filter = {};
-            const user_data = await this.user_service.getAll(user_filter);
-            let total=user_data.length;
-            
-            const page = Number(req.params.page); // Convertir a número
-            const limit = Number(req.params.limit); // Convertir a número
-            const startIndex = (page - 1) * limit;
-            const endIndex = page * limit;
-            let totalPages= Math.ceil(total/limit);
-    
-            const resultUser = user_data.slice(startIndex, endIndex);
-         
-            return res.status(200).json({users:resultUser,totalPages:totalPages,totalUser:total});
-=======
+        if (!userFound) {
+          return res.status(404).json({ message: 'User Not Found' });
+        }
+
+        const session = { id: userFound._id } as IJwtPayload;
+
+    const token = jwt.sign(session, this._SECRET, {
+      expiresIn: 86400,
+    });
+
+    const refreshToken = jwt.sign(session, this._REFRESH_SECRET, {
+      expiresIn: 604800, // 7 days
+    });
+
+
+
+        return res
+          .status(201)
+          .json({ message: 'User created successfully', user: user_data,token: token, refreshToken: refreshToken, id: userFound._id });
+      } else {
+        return res.status(400).json({ error: 'Missing fields' });
+      }
+    } catch (error) {
+      console.log('error', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+  public async checkEmailExists(req: Request, res: Response) {
+    try {
+      const email = req.params.email; // Obtener el correo electrónico de los parámetros de la solicitud
+      const isEmailRegistered = await this.user_service.checkEmailExists(email);
+  
+      return res.status(200).json({ isEmailRegistered });
+    } catch (error) {
+      console.error('Error checking email:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  public async checkIdGoogleExists(req: Request, res: Response) {
+    try {
+      const id = req.params.id; // Obtener el id Google de los parámetros de la solicitud
+      const isIdGoogleRegistered = await this.user_service.checkIdGoogleExists(id);
+  
+      return res.status(200).json({ isIdGoogleRegistered });
+    } catch (error) {
+      console.error('Error checking email:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  
+
+  
+
+  
+
   public async getAll(req: Request, res: Response) {
     try {
       const user_filter = {};
       const user_data = await this.user_service.getAll(user_filter);
       const total = user_data.length;
->>>>>>> a7d8c88fab221218a965493d91adb5aa949d1081
 
       const page = Number(req.params.page); // Convertir a número
       const limit = Number(req.params.limit); // Convertir a número
@@ -80,6 +151,8 @@ export class UserController {
     }
   }
 
+  
+
   public async getUser(req: Request, res: Response) {
     try {
       if (req.params.id) {
@@ -96,6 +169,8 @@ export class UserController {
     }
   }
 
+  
+
   public async updateUser(req: Request, res: Response) {
     try {
       if (req.params.id) {
@@ -107,28 +182,6 @@ export class UserController {
           return res.status(400).json({ error: 'User not found' });
         }
 
-<<<<<<< HEAD
-    public async deleteUser(req: Request, res: Response) {
-        try {
-            if (req.params.id) {
-                // Delete user
-                const delete_details = await this.user_service.deleteUser(req.params.id);
-                if (delete_details.deletedCount !== 0) {
-                    // Send success response if user deleted
-                    return res.status(200).json({ message: 'Successful'});
-                } else {
-                    // Send failure response if user not found
-                    return res.status(400).json({ error: 'User not found' });
-                }
-            } else   {
-                // Send error response if ID parameter is missing
-                return res.status(400).json({ error: 'Missing Id' });
-            }
-        } catch (error) {
-            // Catch and handle any errors
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-=======
         const user_params: IUser = {
           name: req.body.name || user_data.name, // Provide empty name object if not provided
           email: req.body.email || user_data.email,
@@ -155,7 +208,6 @@ export class UserController {
       // Catch and handle any errors
       console.error('Error updating:', error);
       return res.status(500).json({ error: 'Internal server error' });
->>>>>>> a7d8c88fab221218a965493d91adb5aa949d1081
     }
   }
 

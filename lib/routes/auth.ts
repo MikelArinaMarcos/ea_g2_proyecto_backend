@@ -26,10 +26,14 @@ export class AuthRoutes {
       next();
     });
 
-    app.post('/signin', (req: Request, res: Response) => {
-      this.auth_controller.signin(req, res);
+   
+    app.post('/signin/google', (req: Request, res: Response) => {
+      this.auth_controller.signingooggle(req, res);
     });
 
+ app.post('/signin', (req: Request, res: Response) => {
+      this.auth_controller.signin(req, res);
+    });
     app.post('/refresh_token', (req: Request, res: Response) => {
       this.auth_controller.refreshToken(req, res);
     });
