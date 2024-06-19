@@ -13,10 +13,14 @@ export interface IUser {
   gender: string;
   birthday?: Date;
   activities?: mongoose.Types.ObjectId[]; // Array to store post IDs
-  listActivities?: mongoose.Types.ObjectId[]; //Lista de actividades en las que participa
+  listActivities?: mongoose.Types.ObjectId[]; // Lista de actividades en las que participa
   comments?: mongoose.Types.ObjectId[]; // Array to store post IDs
   active: boolean;
   image?: string;
-  password: string; // Add a 'password' field to store the hashed password
+  password: string; // Campo para almacenar la contraseña cifrada
   location?: IPoint;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
+  generatePasswordResetToken(): string;
+  validatePasswordResetToken(token: string): boolean;
 }

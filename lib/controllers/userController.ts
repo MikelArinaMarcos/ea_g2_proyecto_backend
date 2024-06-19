@@ -3,6 +3,9 @@ import { IUser } from '../models/users/model';
 import UserService from '../models/users/service';
 
 export class UserController {
+  recoverPassword(req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>) {
+    throw new Error('Method not implemented.');
+  }
   private user_service: UserService = new UserService();
 
   public async createUser(req: Request, res: Response) {

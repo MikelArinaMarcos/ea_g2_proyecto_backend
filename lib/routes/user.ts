@@ -36,5 +36,9 @@ export class UserRoutes {
         this.user_controller.deleteUser(req, res);
       }
     );
+
+    app.post('/user/recover_password', (req: Request, res: Response) => {
+      this.user_controller.recoverPassword(req, res);
+    });
   }
 }
