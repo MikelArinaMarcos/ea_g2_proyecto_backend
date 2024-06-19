@@ -1,9 +1,18 @@
 import { Request, Response } from 'express';
 import { IUser } from '../models/users/model';
 import UserService from '../models/users/service';
+import { AuthController } from './authController';
+import * as crypto from 'crypto';
+import * as jwt from 'jsonwebtoken';
+import IJwtPayload from 'models/JWTPayload';
 
 export class UserController {
+  private _SECRET: string = 'api+jwt';
+
+  refreshTokenSecret = crypto.randomBytes(64).toString('hex');
+  private _REFRESH_SECRET: string = this.refreshTokenSecret;
   private user_service: UserService = new UserService();
+  private auth_controller: AuthController=new AuthController();
 
   public async createUser(req: Request, res: Response) {
     try {
@@ -45,9 +54,11 @@ export class UserController {
         req.body.phone_number &&
         req.body.gender &&
         req.body.password &&
-        req.body.image
+        req.body.image 
+        
       ) {
         const user_params: IUser = {
+          
           name: req.body.name,
           email: req.body.email,
           phone_number: req.body.phone_number,
@@ -58,9 +69,28 @@ export class UserController {
           password: req.body.password
         };
         const user_data = await this.user_service.createUserGoogle(user_params);
+        const email = req.body.email;
+        const userFound = await this.user_service.filterUser({ email: email });
+
+        if (!userFound) {
+          return res.status(404).json({ message: 'User Not Found' });
+        }
+
+        const session = { id: userFound._id } as IJwtPayload;
+
+    const token = jwt.sign(session, this._SECRET, {
+      expiresIn: 86400,
+    });
+
+    const refreshToken = jwt.sign(session, this._REFRESH_SECRET, {
+      expiresIn: 604800, // 7 days
+    });
+
+
+
         return res
           .status(201)
-          .json({ message: 'User created successfully', user: user_data });
+          .json({ message: 'User created successfully', user: user_data,token: token, refreshToken: refreshToken, id: userFound._id });
       } else {
         return res.status(400).json({ error: 'Missing fields' });
       }
@@ -110,22 +140,7 @@ export class UserController {
     }
   }
 
-  public async signingooggle(req: Request, res: Response): Promise<Response> {
-    const email = req.body.email;
   
-    try {
-      const userFound = await this.user_service.filterUser({ email: email });
-  
-      if (!userFound) {
-        return res.status(404).json({ message: 'User Not Found' });
-      }
-  
-      return res.status(200).json({ id: userFound._id });
-    } catch (error) {
-      console.error('Error during signin:', error);
-      return res.status(500).json({ message: 'Internal Server Error' });
-    }
-  }
 
   public async getUser(req: Request, res: Response) {
     try {
