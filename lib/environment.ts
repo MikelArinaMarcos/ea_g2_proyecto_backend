@@ -9,7 +9,7 @@ class Environment {
   private environment: string;
 
   constructor(environment: string) {
-    this.environment = environment;
+    this.environment = environment 
   }
 
   getPort(): number {
@@ -38,3 +38,4 @@ class Environment {
 }
 
 export default new Environment(Environments.local_environment);
+
