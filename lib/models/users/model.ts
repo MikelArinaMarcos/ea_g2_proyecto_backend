@@ -17,7 +17,6 @@ export interface IUser {
   comments?: mongoose.Types.ObjectId[]; // Array to store post IDs
   active: boolean;
   image?: string;
-  idGoogle?: string;
   password: string; // Add a 'password' field to store the hashed password
   location?: IPoint;
 }

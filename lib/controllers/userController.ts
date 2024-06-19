@@ -111,19 +111,6 @@ export class UserController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
-  public async checkIdGoogleExists(req: Request, res: Response) {
-    try {
-      const id = req.params.id; // Obtener el id Google de los parámetros de la solicitud
-      const isIdGoogleRegistered = await this.user_service.checkIdGoogleExists(id);
-  
-      return res.status(200).json({ isIdGoogleRegistered });
-    } catch (error) {
-      console.error('Error checking email:', error);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-  }
-  
-
   
 
   
