@@ -4,11 +4,13 @@ import { Server } from 'socket.io';
 import User from './models/users/schema';
 import { AuthJWT } from './middlewares/authJWT';
 
-const authJWT: AuthJWT = new AuthJWT();
+const authJWT = new AuthJWT();
 const PORT = env.getPort();
+
 const server = app.listen(PORT, () => {
   console.log('Express server listening on port ' + PORT);
 });
+
 const io = new Server(server);
 
 const connectedUser = new Set();

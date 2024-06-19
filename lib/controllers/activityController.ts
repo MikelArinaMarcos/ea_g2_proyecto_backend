@@ -86,6 +86,7 @@ export class ActivityController {
       const user_filter = { _id: req.params.id };
       const user_data = await this.user_service.filterUser(user_filter);
       const activity_data = await this.activity_service.getAll(user_data, parseInt(req.params.distance, 10));
+      const sort = this.activity_service.sortActivities(activity_data, req.params.sort);
       const total = activity_data.length; 
       const page = Number(req.params.page); // Convertir a número
       const limit = Number(req.params.limit); // Convertir a número
@@ -93,7 +94,7 @@ export class ActivityController {
       const endIndex = page * limit;
       const totalPages = Math.ceil(total / limit);
 
-      const resultActivity = activity_data.slice(startIndex, endIndex);
+      const resultActivity = sort.slice(startIndex, endIndex);
       return res.status(200).json({
         activities: resultActivity,
         totalPages: totalPages,

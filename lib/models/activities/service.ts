@@ -194,7 +194,8 @@ export default class ActivityService {
 
   public async getAll(user: IUser, distance: number): Promise<IActivity[] | null> {
     try {
-      const currentDate = new Date();
+      const currentDate = new Date(); 
+        console.log(currentDate);
       return activities.find({
         location: {
           $near: {
@@ -206,13 +207,34 @@ export default class ActivityService {
           }
         },
         active: true,
-        date: { $gt: currentDate}
+        date: { $gte: currentDate}
       }) as unknown as
         | IActivity[]
         | null;
     } catch (error) {
       console.error('Error en getAll:', error);
       return null;
+    }
+  }
+
+  public sortActivities(list_activities: IActivity[], sortBy: string): IActivity[] {
+    try {
+      
+      let sortedActivities: IActivity[] = [];
+      if (sortBy === "Proximity") {
+        sortedActivities = list_activities.slice();
+      } else if (sortBy === "Date") {
+        sortedActivities = list_activities.slice().sort((a, b) => a.date.getTime() - b.date.getTime());
+      } else if (sortBy === "Rate") {
+        sortedActivities = list_activities.slice().sort((a, b) => b.rate - a.rate);
+      } else {
+        throw new Error('Invalid sortBy parameter: ' + sortBy);
+      }
+  
+      return sortedActivities;
+    } catch (error) {
+      console.error('Error sorting activities:', error);
+      return []; // Retornar un arreglo vacío o manejar el error de otra manera apropiada
     }
   }
 
