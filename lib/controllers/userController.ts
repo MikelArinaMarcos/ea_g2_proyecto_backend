@@ -12,8 +12,8 @@ export class UserController {
   refreshTokenSecret = crypto.randomBytes(64).toString('hex');
   private _REFRESH_SECRET: string = this.refreshTokenSecret;
   private user_service: UserService = new UserService();
-  private auth_controller: AuthController=new AuthController();
-
+  
+  
   public async createUser(req: Request, res: Response) {
     try {
       if (
@@ -111,6 +111,17 @@ export class UserController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+  public async checkIdGoogleExists(req: Request, res: Response) {
+    try {
+      const id = req.params.id; // Obtener el id Google de los parámetros de la solicitud
+      const isIdGoogleRegistered = await this.user_service.checkIdGoogleExists(id);
+  
+      return res.status(200).json({ isIdGoogleRegistered });
+    } catch (error) {
+      console.error('Error checking email:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
   
 
   
@@ -157,6 +168,8 @@ export class UserController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  
 
   public async updateUser(req: Request, res: Response) {
     try {

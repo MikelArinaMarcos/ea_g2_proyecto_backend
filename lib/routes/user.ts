@@ -28,6 +28,10 @@ export class UserRoutes {
       this.user_controller.getAll(req, res);
     });
 
+    app.get('/user/check-id/:id', (req: Request, res: Response) => {
+      this.user_controller.checkIdGoogleExists(req, res);
+    });
+
     app.get('/user/:id', (req: Request, res: Response) => {
       this.user_controller.getUser(req, res);
     });

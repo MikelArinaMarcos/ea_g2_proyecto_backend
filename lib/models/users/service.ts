@@ -63,6 +63,14 @@ export default class UserService {
     }
   }
   
+  public async checkIdGoogleExists(id: string): Promise<boolean> {
+    try {
+      const existingUser = await users.findOne({ _id: id });
+      return !!existingUser.idGoogle; // Devuelve true si existe el usuario, false si no existe
+    } catch (error) {
+      throw error;
+    }
+  }
 
   public async filterUser(query: any): Promise<IUser | null> {
     try {

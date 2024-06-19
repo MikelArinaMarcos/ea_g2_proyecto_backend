@@ -13,6 +13,7 @@ const schema = new Schema({
   comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
   active: Boolean,
   image: { type: String, required: false },
+  idGoogle:{ type: String, required: false },
   password: String, // Add a 'password' field to store the hashed password
   location: {
     type: {
