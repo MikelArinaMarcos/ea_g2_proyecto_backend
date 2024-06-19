@@ -15,7 +15,7 @@ export class ActivityRoutes {
       this.activity_controller.getAll(req, res);
     });
 
-    app.get('/activity/:page/:limit/:id/:distance/:search', (req: Request, res: Response) => {
+    app.get('/activityByName/:page/:limit/:id/:distance/:search', (req: Request, res: Response) => {
       this.activity_controller.getByName(req, res);
     });
 
